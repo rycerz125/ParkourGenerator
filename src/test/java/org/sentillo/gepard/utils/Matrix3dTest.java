@@ -13,29 +13,29 @@ public class Matrix3dTest {
     @Test
     public void testRotateLeft(){
         Matrix3d<Character> matrixes = new Matrix3d<>();
-        matrixes.setObject(4,5 ,0, 'A');
+        matrixes.setObject(4,0 ,5, 'A');
         matrixes.turn90Left();
-        Assertions.assertEquals('A', matrixes.getObject(-5,4,0));
+        Assertions.assertEquals('A', matrixes.getObject(5,0,-4));
     }
     @Test
     public void testRotateRight(){
         Matrix3d<Character> matrixes = new Matrix3d<>();
-        matrixes.setObject(-5,4,0, 'A');
+        matrixes.setObject(5,0,-4, 'A');
         matrixes.turn90Right();
-        Assertions.assertEquals('A', matrixes.getObject(4,5 ,0));
+        Assertions.assertEquals('A', matrixes.getObject(4,0 ,5));
     }
     @Test
     public void testMirrorX(){
         Matrix3d<Character> matrixes = new Matrix3d<>();
-        matrixes.setObject(-5,4,0, 'A');
+        matrixes.setObject(-5,0,2, 'A');
         matrixes.mirrorXAxis();
-        Assertions.assertEquals('A', matrixes.getObject(-5,-4 ,0));
+        Assertions.assertEquals('A', matrixes.getObject(-5,0 ,-2));
     }
     @Test
-    public void testMirrorY(){
+    public void testMirrorZ(){
         Matrix3d<Character> matrixes = new Matrix3d<>();
-        matrixes.setObject(-5,4,0, 'A');
-        matrixes.mirrorYAxis();
-        Assertions.assertEquals('A', matrixes.getObject(5,4,0));
+        matrixes.setObject(-5,4,1, 'A');
+        matrixes.mirrorZAxis();
+        Assertions.assertEquals('A', matrixes.getObject(5,4,1));
     }
 }
