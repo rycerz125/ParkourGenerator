@@ -1,8 +1,6 @@
 package org.sentillo.gepard.jumps;
 
 public enum BlockType {
-
-
     BLOCK,
 
     STAIR_NORTH,
