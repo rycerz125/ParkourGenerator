@@ -15,7 +15,6 @@ public class Matrix3dTest {
         Matrix3d<Character> matrixes = new Matrix3d<>();
         matrixes.setObject(4,5 ,0, 'A');
         matrixes.turn90Left();
-
         Assertions.assertEquals('A', matrixes.getObject(-5,4,0));
     }
     @Test
@@ -23,7 +22,6 @@ public class Matrix3dTest {
         Matrix3d<Character> matrixes = new Matrix3d<>();
         matrixes.setObject(-5,4,0, 'A');
         matrixes.turn90Right();
-
         Assertions.assertEquals('A', matrixes.getObject(4,5 ,0));
     }
     @Test
@@ -31,7 +29,6 @@ public class Matrix3dTest {
         Matrix3d<Character> matrixes = new Matrix3d<>();
         matrixes.setObject(-5,4,0, 'A');
         matrixes.mirrorXAxis();
-
         Assertions.assertEquals('A', matrixes.getObject(-5,-4 ,0));
     }
     @Test
@@ -39,7 +36,6 @@ public class Matrix3dTest {
         Matrix3d<Character> matrixes = new Matrix3d<>();
         matrixes.setObject(-5,4,0, 'A');
         matrixes.mirrorYAxis();
-
         Assertions.assertEquals('A', matrixes.getObject(5,4,0));
     }
 }
