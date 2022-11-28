@@ -1,5 +1,6 @@
 package org.sentillo.gepard.jumps;
 
+import org.sentillo.gepard.utils.BlockMatrix3d;
 import org.sentillo.gepard.utils.Vector3d;
 
 import java.util.*;
@@ -21,7 +22,7 @@ class JumpParser {
 
     public Jump parseOne(String code){
         Jump.JumpBuilder jump = Jump.builder();
-        Map<Vector3d, BlockType> blocks = new HashMap<>();
+        BlockMatrix3d blocks = new BlockMatrix3d();
 
         for(String codeLine : code.split("\n")){
             String[] args = codeLine.trim().split(" ");
@@ -45,19 +46,16 @@ class JumpParser {
             }
 
             else if(args[0].equals("on")){
-                blocks.put(new Vector3d(
-                        Integer.parseInt(args[1]),
-                        Integer.parseInt(args[2]),
-                        Integer.parseInt(args[3])
-                ), BlockType.valueOf(args[4].toUpperCase(Locale.ROOT)));
+                blocks.setObject(
+                    Integer.parseInt(args[1]),
+                    Integer.parseInt(args[2]),
+                    Integer.parseInt(args[3]),
+                    BlockType.valueOf(args[4].toUpperCase(Locale.ROOT))
+                );
             }
         }
-
+        jump.visibleLayer(blocks);
         Jump madeJump = jump.build();
-
-        for(Map.Entry<Vector3d, BlockType> e : blocks.entrySet())
-            madeJump.setObject(e.getKey().getX(), e.getKey().getY(), e.getKey().getZ(), e.getValue());
-
         return madeJump;
     }
 }

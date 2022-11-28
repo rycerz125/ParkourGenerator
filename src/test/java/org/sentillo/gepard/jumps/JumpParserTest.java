@@ -49,8 +49,8 @@ public class JumpParserTest {
     public void testOnCommand(){
         JumpParser jp = new JumpParser();
         List<Jump> jumps = jp.parse(testCode);
-        Assertions.assertEquals(BlockType.BLOCK, jumps.get(0).getObject(0,0,0));
-        Assertions.assertEquals(BlockType.STAIR_NORTH, jumps.get(0).getObject(4,1,0));
+        Assertions.assertEquals(BlockType.BLOCK, jumps.get(0).getVisibleLayer().getObject(0,0,0));
+        Assertions.assertEquals(BlockType.STAIR_NORTH, jumps.get(0).getVisibleLayer().getObject(4,1,0));
     }
 
     @Test
