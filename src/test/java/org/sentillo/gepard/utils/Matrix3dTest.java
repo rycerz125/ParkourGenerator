@@ -38,4 +38,10 @@ public class Matrix3dTest {
         matrixes.mirrorZAxis();
         Assertions.assertEquals('A', matrixes.getObject(5,4,1));
     }
+    @Test
+    public void setBoxTest(){
+        Matrix3d<Boolean> matrix = new Matrix3d<>();
+        matrix.setBox(Vector3d.of(0,0,0), Vector3d.of(5,5,5), true);
+        Assertions.assertEquals(true, matrix.getObject(3, 3, 3));
+    }
 }

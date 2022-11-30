@@ -12,15 +12,17 @@ public class JumpParserTest {
         newjump 3+1
         start 0 0 0
         stop 4 1 0
-        on 0 0 0 block
-        on 4 1 0 stair_north
+        onvisible 0 0 0 block
+        onvisible 4 1 0 stair_north
+        onempty 0 0 0 box 4 3 0 true
+        oncanempty 0 0 -1 box 4 3 1 true
         jumpend
         
         newjump 4
         start 0 0 0
         stop 5 0 0
-        on 0 0 0 block
-        on 5 0 0 block
+        onvisible 0 0 0 block
+        onvisible 5 0 0 block
         jumpend
     """;
 
@@ -59,5 +61,13 @@ public class JumpParserTest {
         List<Jump> jumps = jp.parse(testCode);
         Assertions.assertEquals("3+1", jumps.get(0).getName());
         Assertions.assertEquals("4", jumps.get(1).getName());
+    }
+
+    @Test
+    public void testOnEmptyCommand(){
+        JumpParser jp = new JumpParser();
+        List<Jump> jumps = jp.parse(testCode);
+        Assertions.assertEquals(true, 
+            jumps.get(0).getMustEmptyLayer().getObject(0, 0, 0));
     }
 }

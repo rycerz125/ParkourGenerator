@@ -38,4 +38,8 @@ public class Vector3d {
         Vector3d vector3d = (Vector3d) o;
         return x == vector3d.x && y == vector3d.y && z == vector3d.z;
     }
+
+    public static Vector3d of(int x, int y, int z){
+        return new Vector3d(x,y,z);
+    }
 }
