@@ -9,17 +9,17 @@ import lombok.Getter;
 @Builder
 class JumpSpecification {
     @Getter
-    public Jump jump;
+    private Jump jump;
 
     @Getter
     @Builder.Default
-    public ProbabilityFunction probabilityFunction = ProbabilityFunctionFactory.getConstant(1);
+    private ProbabilityFunction probabilityFunction = ProbabilityFunctionFactory.getConstant(1);
     
     @Getter
     @Builder.Default
-    public int limit = 0;
+    private int limit = 0;
     
     @Getter
     @Builder.Default
-    public int mustGenerateNumber = 0;
+    private int mustGenerateNumber = 0;
 }
