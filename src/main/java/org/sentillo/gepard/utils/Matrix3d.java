@@ -64,6 +64,12 @@ public class Matrix3d <T>{
                 }
     }
 
+    public void place(Matrix3d<T> matrixToPlace, Vector3d shift){
+        for(Vector3d vector3d : matrixToPlace.objects.keySet()){
+            objects.put(vector3d.add(shift), matrixToPlace.getObject(vector3d));
+        }
+    }
+
     public long count(){
         return objects.size();
     }

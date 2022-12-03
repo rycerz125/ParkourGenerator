@@ -42,4 +42,9 @@ public class Vector3d {
     public static Vector3d of(int x, int y, int z){
         return new Vector3d(x,y,z);
     }
+    public Vector3d add(Vector3d vector3dToAdd){
+        return of(x + vector3dToAdd.x,
+                  y + vector3dToAdd.y,
+                  z + vector3dToAdd.z);
+    }
 }
