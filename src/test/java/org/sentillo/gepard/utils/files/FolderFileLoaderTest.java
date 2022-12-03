@@ -16,8 +16,8 @@ public class FolderFileLoaderTest {
             loadedFiles.get(1).getFileName()
         );
         Assertions.assertEquals(
-            "test\ntest",
-            loadedFiles.get(1).getContent()
+            "testtest",
+            loadedFiles.get(1).getContent().trim()
         );
     }
 
