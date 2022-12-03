@@ -1,0 +1,18 @@
+newjump 3shiftedEnd
+    stop 4 0 0
+    onvisible 0 0 0 block
+    onvisible 4 0 -1 block
+
+    onempty 1 0 0 box 3 3 -1 true
+    onempty 0 1 0 true
+    onempty 0 2 0 true
+    onempty 4 1 -1 true
+    onempty 4 2 -1 true
+
+    onshouldempty 0 0 -1 box 0 3 -1 true
+    onshouldempty 4 0 0 box 4 3 0 true
+    onshouldempty 0 3 0 true
+    onshouldempty 3 4 0 true
+    onshouldempty 3 4 -1 true
+    onshouldempty 4 3 -1 true
+jumpend
