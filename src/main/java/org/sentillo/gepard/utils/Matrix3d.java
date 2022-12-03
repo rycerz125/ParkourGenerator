@@ -7,11 +7,11 @@ public class Matrix3d <T>{
     public Matrix3d() {
         objects = new HashMap<>();
     }
-    public void setObject(int x, int y, int z, T object){
-        objects.put(new Vector3d(x,y,z), object);
+    public void setObject(Vector3d vector3d, T object){
+        objects.put(vector3d, object);
     }
-    public T getObject(int x, int y, int z){
-        return objects.get(new Vector3d(x,y,z));
+    public T getObject(Vector3d vector3d){
+        return objects.get(vector3d);
     }
 
     public void turn90Left(){
@@ -60,7 +60,7 @@ public class Matrix3d <T>{
         for(int x = x1;x <= x2; x++)
             for(int y= y1;y <= y2; y++)
                 for(int z= z1;z <= z2; z++){
-                    this.setObject(x, y, z, obj);
+                    this.setObject(new Vector3d(x, y, z), obj);
                 }
     }
 

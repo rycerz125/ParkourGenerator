@@ -48,10 +48,10 @@ class JumpParser {
             }
 
             else if(args[0].equals("onvisible")){
-                blocks.setObject(
+                blocks.setObject(new Vector3d(
                     Integer.parseInt(args[1]),
                     Integer.parseInt(args[2]),
-                    Integer.parseInt(args[3]),
+                    Integer.parseInt(args[3])),
                     BlockType.valueOf(args[4].toUpperCase(Locale.ROOT))
                 );
             }
