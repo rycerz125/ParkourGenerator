@@ -1,5 +1,5 @@
 newjump 3shiftedEnd
-    stop 4 0 0
+    stop 4 0 -1
     onvisible 0 0 0 block
     onvisible 4 0 -1 block
 
