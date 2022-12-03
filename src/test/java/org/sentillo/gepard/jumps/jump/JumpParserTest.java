@@ -16,7 +16,7 @@ public class JumpParserTest {
         onvisible 0 0 0 block
         onvisible 4 1 0 stair_north
         onempty 0 0 0 box 4 3 0 true
-        oncanempty 0 0 -1 box 4 3 1 true
+        onshouldempty 0 0 -1 box 4 3 1 true
         jumpend
         
         newjump 4
