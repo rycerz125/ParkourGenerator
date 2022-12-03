@@ -1,0 +1,6 @@
+newjump 4
+    start 0 0 0
+    stop 5 0 0
+    onvisible 0 0 0 block
+    onvisible 5 0 0 block
+jumpend

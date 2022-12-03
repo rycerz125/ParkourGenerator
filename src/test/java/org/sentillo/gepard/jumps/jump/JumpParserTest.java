@@ -1,7 +1,8 @@
-package org.sentillo.gepard.jumps;
+package org.sentillo.gepard.jumps.jump;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.sentillo.gepard.jumps.BlockType;
 import org.sentillo.gepard.utils.Vector3d;
 
 import java.util.List;

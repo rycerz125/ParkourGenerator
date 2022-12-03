@@ -1,5 +1,6 @@
-package org.sentillo.gepard.jumps;
+package org.sentillo.gepard.jumps.jump;
 
+import org.sentillo.gepard.jumps.BlockType;
 import org.sentillo.gepard.utils.BlockMatrix3d;
 import org.sentillo.gepard.utils.Matrix3d;
 import org.sentillo.gepard.utils.Vector3d;

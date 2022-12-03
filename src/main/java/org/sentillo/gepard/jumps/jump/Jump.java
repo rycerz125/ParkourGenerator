@@ -1,4 +1,4 @@
-package org.sentillo.gepard.jumps;
+package org.sentillo.gepard.jumps.jump;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,12 +11,13 @@ import org.sentillo.gepard.utils.Vector3d;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-class Jump {
+public class Jump {
     @Getter
     private String name;
 
     @Getter
-    private Vector3d start;
+    @Builder.Default
+    private Vector3d start = new Vector3d(0, 0, 0);
 
     @Getter
     private Vector3d stop;
