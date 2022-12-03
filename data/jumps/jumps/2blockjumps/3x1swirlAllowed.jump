@@ -12,6 +12,8 @@ newjump 3x1swirlAllowed
     onempty 3 4 -1 true
     onempty 3 4 -2 true
 
+    onempty 4 0 -1 box 4 2 -1 true
+
     onshouldempty 0 0 -1 box 0 2 -1 true
 
     onshouldempty 1 4 -1 true
