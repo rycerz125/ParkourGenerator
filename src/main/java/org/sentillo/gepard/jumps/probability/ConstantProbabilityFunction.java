@@ -6,13 +6,13 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 class ConstantProbabilityFunction implements ProbabilityFunction{
-    private int probabilityPoints;
+    private float probabilityPoints;
     
-    public int giveProbabilityPoints(){
+    public float giveProbabilityPoints(){
         return probabilityPoints;
     }
 
-    public int giveProbabilityPoints(RandomGenerator randomGenerator){
+    public float giveProbabilityPoints(RandomGenerator randomGenerator){
         return probabilityPoints;
     }
 

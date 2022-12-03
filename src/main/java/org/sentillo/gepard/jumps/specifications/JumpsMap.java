@@ -1,14 +1,20 @@
-package org.sentillo.gepard.jumps;
+package org.sentillo.gepard.jumps.specifications;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import org.sentillo.gepard.jumps.jump.Jump;
 
 import lombok.Builder;
 import lombok.Getter;
 
 @Builder
 class JumpsMap {
+
+    @Getter
+    private String name;
+
     @Getter
     @Builder.Default
     private List<JumpSpecification> jumpsSpecifications = new ArrayList<>();

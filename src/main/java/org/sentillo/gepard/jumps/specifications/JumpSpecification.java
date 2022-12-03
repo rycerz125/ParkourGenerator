@@ -1,5 +1,6 @@
-package org.sentillo.gepard.jumps;
+package org.sentillo.gepard.jumps.specifications;
 
+import org.sentillo.gepard.jumps.jump.Jump;
 import org.sentillo.gepard.jumps.probability.ProbabilityFunction;
 import org.sentillo.gepard.jumps.probability.ProbabilityFunctionFactory;
 
