@@ -11,7 +11,7 @@ import org.sentillo.gepard.utils.Vector3d;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Jump {
+class Jump {
     @Getter
     private String name;
 
