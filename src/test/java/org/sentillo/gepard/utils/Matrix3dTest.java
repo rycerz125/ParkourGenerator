@@ -10,6 +10,7 @@ public class Matrix3dTest {
         matrixes.setObject(new Vector3d(10,10 ,20), 'A');
         Assertions.assertEquals('A', matrixes.getObject(new Vector3d(10,10,20)));
     }
+
     @Test
     public void testRotateLeft(){
         Matrix3d<Character> matrixes = new Matrix3d<>();
