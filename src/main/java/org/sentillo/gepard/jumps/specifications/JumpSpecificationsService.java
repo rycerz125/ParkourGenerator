@@ -13,7 +13,7 @@ public class JumpSpecificationsService {
 
     public JumpSpecificationsService(String assetsPath, JumpService jumpService){
         JumpMapLoader jumpMapLoader = new JumpMapLoader(jumpService);
-        List<JumpsMap> jumpMaps = jumpMapLoader.loadJumpSpecifications(assetsPath);
+        List<JumpsMap> jumpMaps = jumpMapLoader.load(assetsPath);
 
         for(JumpsMap jm : jumpMaps){
             addSpecification(jm);

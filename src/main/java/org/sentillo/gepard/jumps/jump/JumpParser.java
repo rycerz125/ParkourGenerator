@@ -3,25 +3,18 @@ package org.sentillo.gepard.jumps.jump;
 import org.sentillo.gepard.jumps.BlockType;
 import org.sentillo.gepard.utils.BlockMatrix3d;
 import org.sentillo.gepard.utils.Matrix3d;
+import org.sentillo.gepard.utils.TextParser;
 import org.sentillo.gepard.utils.Vector3d;
 
 import java.util.*;
 
-class JumpParser {
+class JumpParser extends TextParser<Jump>{
 
-    public List<Jump> parse(String code){
-        String[] codes = code.trim().split("newjump.");
-        List<Jump> jumps = new ArrayList<>();
-
-        for(String c : codes){
-            c = c.trim();
-            if(!c.equals(""))
-            jumps.add(parseOne("newjump " + c));
-        }
-
-        return jumps;
+    public JumpParser(){
+        super("newjump");
     }
 
+    @Override
     public Jump parseOne(String code){
         Jump.JumpBuilder jump = Jump.builder();
         BlockMatrix3d blocks = new BlockMatrix3d();

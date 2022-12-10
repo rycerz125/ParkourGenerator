@@ -13,7 +13,7 @@ public class JumpSpecificationLoaderTest {
     public void loadJumpSpecificationTest(){
         JumpService jumpService = new JumpService("testfolder" + File.separator + "assets" + File.separator + "jumps" + File.separator + "jumps");
         JumpMapLoader jumpMapLoader = new JumpMapLoader(jumpService);
-        List<JumpsMap> loadedJumpMaps = jumpMapLoader.loadJumpSpecifications("testfolder" + File.separator + "assets" + File.separator + "jumps" + File.separator + "specifications");
+        List<JumpsMap> loadedJumpMaps = jumpMapLoader.load("testfolder" + File.separator + "assets" + File.separator + "jumps" + File.separator + "specifications");
         Assertions.assertEquals(1, loadedJumpMaps.size());
     }
     

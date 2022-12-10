@@ -6,31 +6,21 @@ import java.util.Optional;
 
 import org.sentillo.gepard.jumps.jump.Jump;
 import org.sentillo.gepard.jumps.jump.JumpService;
+import org.sentillo.gepard.utils.TextParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class JumpsMapParser {
+public class JumpsMapParser extends TextParser<JumpsMap>{
 
     private JumpService jumpService;
     private Logger logger = LoggerFactory.getLogger(JumpsMapParser.class);
 
     public JumpsMapParser(JumpService jumpService){
+        super("newspec");
         this.jumpService = jumpService;
     }
 
-    public List<JumpsMap> parse(String code){
-        String[] codes = code.trim().split("newspec.");
-        List<JumpsMap> specifications = new ArrayList<>();
-
-        for(String c : codes){
-            c = c.trim();
-            if(!c.equals(""))
-            specifications.add(parseOne("newspec " + c));
-        }
-
-        return specifications;
-    }
-
+    @Override
     public JumpsMap parseOne(String code){
         JumpsMap.JumpsMapBuilder jumpsMap = JumpsMap.builder();
         List<JumpSpecification> jumps = new ArrayList<>();
@@ -42,7 +32,7 @@ public class JumpsMapParser {
                 jumpsMap.name(args[1]);
             }
             if(args[0].equals("add")){
-                Optional<Jump> jump = jumpService.giveJump(args[1]);
+                Optional<Jump> jump = jumpService.get(args[1]);
                 if(!jump.isPresent()){
                     logger.error("Jump with name \""+args[1]+"\" was not found!");
                     continue;

@@ -52,4 +52,8 @@ public class Vector3d {
     public static Vector3d zero(){
         return Vector3d.of(0, 0, 0);
     }
+
+    public Vector3d copy(){
+        return Vector3d.of(x, y, z);
+    }
 }

@@ -1,6 +1,7 @@
 package org.sentillo.gepard.utils;
 
 import java.util.HashMap;
+import java.util.Set;
 
 public class Matrix3d <T>{
     protected HashMap<Vector3d,T> objects;
@@ -72,5 +73,9 @@ public class Matrix3d <T>{
 
     public long count(){
         return objects.size();
+    }
+
+    public Set<Vector3d> getAllLocations(){
+        return objects.keySet();
     }
 }

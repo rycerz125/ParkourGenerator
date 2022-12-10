@@ -6,12 +6,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.sentillo.gepard.utils.BlockMatrix3d;
 import org.sentillo.gepard.utils.Matrix3d;
+import org.sentillo.gepard.utils.Named;
 import org.sentillo.gepard.utils.Vector3d;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Jump {
+public class Jump implements Named{
     @Getter
     private String name;
 

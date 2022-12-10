@@ -3,6 +3,8 @@ package org.sentillo.gepard.utils;
 import org.sentillo.gepard.jumps.BlockType;
 
 public class BlockMatrix3d extends Matrix3d<BlockType>{
+
+    //TODO: Do tests
     @Override
     public void turn90Left(){
         super.turn90Left();
@@ -31,5 +33,4 @@ public class BlockMatrix3d extends Matrix3d<BlockType>{
             objects.put(vector3d, BlockType.mirrorZ(objects.get(vector3d)));
         }
     }
-
 }
