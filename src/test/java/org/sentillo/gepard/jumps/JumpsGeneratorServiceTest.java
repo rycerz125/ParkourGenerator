@@ -9,7 +9,7 @@ import org.sentillo.gepard.utils.Vector3d;
 public class JumpsGeneratorServiceTest {
     @Test
     public void generateSimpleMapTest(){
-        JumpsGeneratorService jumpsGeneratorService = new JumpsGeneratorService("testfolder" + File.separator + "assets" + File.separator + "jumps");
+        JumpsGeneratorService jumpsGeneratorService = new JumpsGeneratorService("src" + File.separator + "test" + File.separator +"testfolder" + File.separator + "assets" + File.separator + "jumps");
         GeneratedJumpLayers map = jumpsGeneratorService.generateJumpLayers("only4", "test", 5);
 
         Assertions.assertEquals(6, map.getJumpBlocks().count());
