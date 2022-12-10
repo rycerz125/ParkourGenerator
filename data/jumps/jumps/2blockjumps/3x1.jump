@@ -1,4 +1,4 @@
-newjump 3x1swirlAllowed
+newjump 3x1
     stop 4 0 -2
     onvisible 0 0 0 block
     onvisible 4 0 -2 block
