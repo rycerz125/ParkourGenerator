@@ -1,4 +1,4 @@
-package org.sentillo.gepard.coloristic;
+package org.sentillo.gepard.colors;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,14 +7,14 @@ import org.sentillo.gepard.jumps.BlockType;
 import org.sentillo.gepard.utils.McBlock;
 import org.sentillo.gepard.utils.TextParser;
 
-class ColoristicParser extends TextParser<Coloristic>{
+class ColorMapParser extends TextParser<ColorMap>{
 
-    public ColoristicParser(){
+    public ColorMapParser(){
         super("newcolor");
     }
 
     @Override
-    public Coloristic parseOne(String code){
+    public ColorMap parseOne(String code){
         String name = "None";
         Map<BlockType, McBlock> blocks = new HashMap<>();
 
@@ -29,6 +29,6 @@ class ColoristicParser extends TextParser<Coloristic>{
             }
         }
 
-        return new Coloristic(name, blocks);
+        return new ColorMap(name, blocks);
     }
 }

@@ -1,4 +1,4 @@
-package org.sentillo.gepard.jumps.specifications;
+package org.sentillo.gepard.jumps.jumpsmap;
 
 import org.sentillo.gepard.jumps.jump.Jump;
 import org.sentillo.gepard.jumps.probability.ProbabilityFunction;

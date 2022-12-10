@@ -1,16 +1,17 @@
-package org.sentillo.gepard.jumps.specifications;
+package org.sentillo.gepard.jumps.jumpsmap;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import org.sentillo.gepard.jumps.jump.Jump;
+import org.sentillo.gepard.utils.Named;
 
 import lombok.Builder;
 import lombok.Getter;
 
 @Builder
-class JumpsMap {
+public class JumpsMap implements Named{
 
     @Getter
     private String name;

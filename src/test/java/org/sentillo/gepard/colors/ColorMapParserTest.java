@@ -1,4 +1,4 @@
-package org.sentillo.gepard.coloristic;
+package org.sentillo.gepard.colors;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import org.sentillo.gepard.utils.Matrix3d;
 import org.sentillo.gepard.utils.McBlock;
 import org.sentillo.gepard.utils.Vector3d;
 
-public class ColoristicParserTest {
+public class ColorMapParserTest {
     private String testCode = """
     newcolor Test
         blocktype BLOCK GRASS
@@ -19,15 +19,15 @@ public class ColoristicParserTest {
 
     @Test
     public void testParserName(){
-        ColoristicParser cp = new ColoristicParser();
-        List<Coloristic> coloristics = cp.parse(testCode);
+        ColorMapParser cp = new ColorMapParser();
+        List<ColorMap> coloristics = cp.parse(testCode);
         Assertions.assertEquals("Test", coloristics.get(0).getName());
     }
 
     @Test
     public void testMatrixConversion(){
-        ColoristicParser cp = new ColoristicParser();
-        Coloristic coloristic = cp.parse(testCode).get(0);
+        ColorMapParser cp = new ColorMapParser();
+        ColorMap coloristic = cp.parse(testCode).get(0);
 
         BlockMatrix3d jumps = new BlockMatrix3d();
         jumps.setObject(Vector3d.zero(), BlockType.BLOCK);

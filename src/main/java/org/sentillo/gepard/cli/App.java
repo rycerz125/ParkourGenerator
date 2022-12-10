@@ -1,6 +1,6 @@
-package org.sentillo.gepard;
+package org.sentillo.gepard.cli;
 
-public class Generuj {
+public class App {
     public static void main(String[] a){
         System.out.println("mapa zostanie generowana");
     }

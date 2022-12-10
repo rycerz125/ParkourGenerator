@@ -1,4 +1,4 @@
-package org.sentillo.gepard.jumps.specifications;
+package org.sentillo.gepard.jumps.jumpsmap;
 
 import java.io.File;
 import java.util.List;
@@ -12,8 +12,8 @@ public class JumpSpecificationLoaderTest {
     @Test
     public void loadJumpSpecificationTest(){
         JumpService jumpService = new JumpService("src" + File.separator + "test" + File.separator +"testfolder" + File.separator + "assets" + File.separator + "jumps" + File.separator + "jumps");
-        JumpMapLoader jumpMapLoader = new JumpMapLoader(jumpService);
-        List<JumpsMap> loadedJumpMaps = jumpMapLoader.load("src" + File.separator + "test" + File.separator +"testfolder" + File.separator + "assets" + File.separator + "jumps" + File.separator + "specifications");
+        JumpsMapLoader jumpMapLoader = new JumpsMapLoader(jumpService);
+        List<JumpsMap> loadedJumpMaps = jumpMapLoader.load("src" + File.separator + "test" + File.separator +"testfolder" + File.separator + "assets" + File.separator + "jumps" + File.separator + "jumpsmap");
         Assertions.assertEquals(1, loadedJumpMaps.size());
     }
     
