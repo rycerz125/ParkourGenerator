@@ -1,0 +1,28 @@
+newjump 3x1swirlAllowed
+    stop 4 0 -2
+    onvisible 0 0 0 block
+    onvisible 4 0 -2 block
+
+    onempty 1 0 0 box 2 3 -1 true
+    onempty 2 3 -1 box 3 0 -2 true
+    onempty 0 1 0 true
+    onempty 0 2 0 true
+    onempty 4 1 -2 true
+    onempty 4 2 -2 true
+    onempty 3 4 -1 true
+    onempty 3 4 -2 true
+
+    onempty 4 0 -1 box 4 2 -1 true
+
+    onempty 0 0 -1 box 0 2 -1 true
+
+    onshouldempty 1 4 -1 true
+    onshouldempty 2 4 -1 true
+    onshouldempty 2 4 -2 true
+
+    onshouldempty 0 3 -1 true
+    onshouldempty 4 3 -1 true
+
+    onshouldempty 0 3 0 true
+    onshouldempty 4 3 -2 true
+jumpend
