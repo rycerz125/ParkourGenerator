@@ -1,0 +1,15 @@
+newjump 2x2plus1
+    stop 3 1 3
+    onvisible 0 0 0 block
+    onvisible 3 1 3 block
+
+
+    onempty 0 0 0 box 1 3 1 true
+        onempty 1 0 1 box 2 4 2 true
+                onempty 2 1 2 box 3 3 3 true
+
+
+    onempty 2 0 2 true
+
+    onshouldempty 0 3 0
+jumpend
