@@ -1,11 +1,11 @@
-package org.sentillo.gepard.jumps.specifications;
+package org.sentillo.gepard.jumps.jumpsmap;
 
 import org.sentillo.gepard.jumps.jump.JumpService;
 import org.sentillo.gepard.utils.files.FolderLoader;
 
-public class JumpMapLoader extends FolderLoader<JumpsMap>{
+public class JumpsMapLoader extends FolderLoader<JumpsMap>{
 
-    public JumpMapLoader(JumpService jumpService){
+    public JumpsMapLoader(JumpService jumpService){
         super(new JumpsMapParser(jumpService));
     }
     

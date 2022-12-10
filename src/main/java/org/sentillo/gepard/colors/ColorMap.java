@@ -1,4 +1,4 @@
-package org.sentillo.gepard.coloristic;
+package org.sentillo.gepard.colors;
 
 import java.util.Map;
 
@@ -11,14 +11,14 @@ import org.sentillo.gepard.utils.Named;
 
 import lombok.Getter;
 
-public class Coloristic implements Named{
+public class ColorMap implements Named{
 
     @Getter
     private String name;
 
     private MatrixConverter<BlockType, McBlock> jumpMapConverter;
 
-    public Coloristic(String name, Map<BlockType, McBlock> jumpBlockMap){
+    public ColorMap(String name, Map<BlockType, McBlock> jumpBlockMap){
         this.name = name;
         jumpMapConverter = new MatrixConverter<>(
             new MatrixMapConvertionProgram<>(jumpBlockMap)

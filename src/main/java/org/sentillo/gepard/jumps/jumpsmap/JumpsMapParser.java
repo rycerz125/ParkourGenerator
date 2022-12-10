@@ -1,4 +1,4 @@
-package org.sentillo.gepard.jumps.specifications;
+package org.sentillo.gepard.jumps.jumpsmap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ public class JumpsMapParser extends TextParser<JumpsMap>{
     private Logger logger = LoggerFactory.getLogger(JumpsMapParser.class);
 
     public JumpsMapParser(JumpService jumpService){
-        super("newspec");
+        super("newjumpmap");
         this.jumpService = jumpService;
     }
 
@@ -28,7 +28,7 @@ public class JumpsMapParser extends TextParser<JumpsMap>{
         for(String codeLine : code.split("\n")){
             String[] args = codeLine.trim().split(" ");
 
-            if(args[0].equals("newspec")){
+            if(args[0].equals("newjumpmap")){
                 jumpsMap.name(args[1]);
             }
             if(args[0].equals("add")){

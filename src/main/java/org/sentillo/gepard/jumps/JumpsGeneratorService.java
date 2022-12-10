@@ -5,26 +5,26 @@ import java.util.List;
 
 import org.sentillo.gepard.jumps.jump.Jump;
 import org.sentillo.gepard.jumps.jump.JumpService;
-import org.sentillo.gepard.jumps.specifications.JumpSpecificationsService;
+import org.sentillo.gepard.jumps.jumpsmap.JumpsMapService;
 import org.sentillo.gepard.utils.Vector3d;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class JumpsGeneratorService {
 
-    private JumpSpecificationsService jumpSpecificationsService;
+    private JumpsMapService jumpSpecificationsService;
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     //Standard assets folder is "./data/jumps"
     public JumpsGeneratorService(String assetsFolderPath){
         logger.info("Loading JumpsFacade...");
         JumpService jumpService = new JumpService(assetsFolderPath + File.separator + "jumps");
-        jumpSpecificationsService = new JumpSpecificationsService(assetsFolderPath + File.separator + "specifications", jumpService);
+        jumpSpecificationsService = new JumpsMapService(assetsFolderPath + File.separator + "jumpsmap", jumpService);
     }
 
     public GeneratedJumpLayers generateJumpLayers(String jumpMap, String seed, int jumpsCount){
         GeneratedJumpLayers generatedJumpMap = new GeneratedJumpLayers();
-        List<Jump> mapJumps = jumpSpecificationsService.generateJumps(jumpMap, seed, jumpsCount);
+        List<Jump> mapJumps = jumpSpecificationsService.get(jumpMap).get().generateJumps(jumpsCount, seed);
 
         Vector3d pointer = Vector3d.zero();
 

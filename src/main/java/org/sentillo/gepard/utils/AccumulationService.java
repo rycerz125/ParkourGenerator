@@ -13,6 +13,8 @@ public class AccumulationService<T extends Named> {
     protected HashMap<String, T> accumulatedObjects = new HashMap<>();
     private Logger logger = LoggerFactory.getLogger(getClass());
 
+    public AccumulationService(){}
+
     public AccumulationService(String assetsPath, FolderLoader<T> folderLoader){
         logger.info("Loading objects on "+getClass()+"...");
         List<T> loadedJumps = folderLoader.load(assetsPath);
