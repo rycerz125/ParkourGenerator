@@ -1,4 +1,4 @@
-newjump 0plus1
+newjump 1plus1
     stop 2 1 0
     onvisible 0 0 0 block
     onvisible 2 1 0 block
