@@ -1,0 +1,22 @@
+newjump 3x2
+    stop 4 0 -3
+    onvisible 0 0 0 block
+    onvisible 4 0 -3 block
+
+    onempty 0 0 0 box 2 3 -1 true
+    onempty 1 0 -1 box 3 3 -2 true
+    onempty 2 0 -2 box 4 3 -3 true
+
+    onshouldempty 0 3 0 true
+    onshouldempty 4 0 -3 true
+    onshouldempty 3 4 -3 true
+    onshouldempty 4 4 -2 true
+    onshouldempty 1 4 -1 box 3 4 -2 true
+        onshouldempty 3 4 -2 false
+        onempty 3 4 -2 true
+
+    onshouldempty 2 4 0 true
+
+
+
+jumpend
