@@ -1,0 +1,10 @@
+newjump 2plus1
+    stop 3 1 0
+    onvisible 0 0 0 block
+    onvisible 3 1 0 block
+
+    onempty 0 0 0 box 3 3 0 true
+    onempty 3 0 0 false
+
+    onshouldempty 0 3 0 true
+jumpend
