@@ -42,6 +42,11 @@
             <version>1.17.1</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.openjdk.nashorn</groupId>
+            <artifactId>nashorn-core</artifactId>
+            <version>LATEST</version>
+        </dependency>
     </dependencies>
 
     <properties>
