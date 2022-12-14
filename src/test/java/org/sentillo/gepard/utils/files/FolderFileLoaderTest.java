@@ -10,7 +10,7 @@ public class FolderFileLoaderTest {
 
     @Test
     public void testLoadingTestFolder(){
-        List<LoadedFile> loadedFiles = FolderFileLoader.loadFilesFromFolder("src" + File.separator + "test" + File.separator + "testfolder");
+        List<LoadedFile> loadedFiles = FolderFileLoader.loadFilesFromFolder("src" + File.separator + "test" + File.separator + "testfolder").getLoadedFiles();
 
         Assertions.assertEquals(
             "test.txt", 
@@ -24,8 +24,24 @@ public class FolderFileLoaderTest {
 
     @Test
     public void testLoadingFolderTree(){
-        List<LoadedFile> loadedFiles = FolderFileLoader.loadFilesFromFolder("src" + File.separator + "test" + File.separator + "testfolder");
+        List<LoadedFile> loadedFiles = FolderFileLoader.loadFilesFromFolder("src" + File.separator + "test" + File.separator + "testfolder").getLoadedFiles();
         Assertions.assertEquals("test2.txt", loadedFiles.get(0).getFileName());
+    }
+
+    @Test
+    public void searchForFiles(){
+        LoadedFiles loadedFiles = FolderFileLoader.loadFilesFromFolder("src" + File.separator + "test" + File.separator + "testfolder" + File.separator + "finder");
+        LoadedFiles found = loadedFiles.findFilesByName("test");
+
+        Assertions.assertEquals(2, found.getLoadedFiles().size());
+    }
+
+    @Test
+    public void getByFolderTest(){
+        LoadedFiles loadedFiles = FolderFileLoader.loadFilesFromFolder("src" + File.separator + "test" + File.separator + "testfolder" + File.separator + "finder");
+        LoadedFiles found = loadedFiles.findFilesByName("fuld");
+        LoadedFiles newFolder = loadedFiles.getAllFromFolder(found.getLoadedFiles().get(0).getFilePath());
+        Assertions.assertEquals(3, newFolder.getLoadedFiles().size());
     }
     
 }
