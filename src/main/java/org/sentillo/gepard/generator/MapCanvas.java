@@ -20,10 +20,6 @@ public class MapCanvas {
     @Setter
     private Matrix3d<McBlock> terrainLayer;
 
-    @Getter
-    @Setter
-    private Matrix3d<McBlock> assetsLayer;
-
     public Matrix3d<McBlock> bakeToOneMap(){
         return null;
     }

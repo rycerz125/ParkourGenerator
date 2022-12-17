@@ -4,7 +4,8 @@ import lombok.Getter;
 
 public enum McBlock {
     AIR(0,0),
-    GRASS(1,0);
+    GRASS(1,0),
+    WATER(2, 0);
 
     @Getter
     private int id;

@@ -1,6 +1,6 @@
 package org.sentillo.gepard.utils;
 
-import org.sentillo.gepard.jumps.BlockType;
+import org.sentillo.gepard.generator.jumps.BlockType;
 
 public class BlockMatrix3d extends Matrix3d<BlockType>{
 
