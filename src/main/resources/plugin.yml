@@ -1,0 +1,6 @@
+name: GepardGenerator
+main: org.sentillo.gepard.bukkit.GepardPlugin
+version: 0.1
+description: This plugin generates parkour maps.
+api-version: 1.19
+authors: [wuza8, rycerz125]
