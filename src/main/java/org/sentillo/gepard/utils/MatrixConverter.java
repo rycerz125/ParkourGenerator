@@ -2,9 +2,9 @@ package org.sentillo.gepard.utils;
 
 public class MatrixConverter<T,D> {
 
-    private MatrixConvertionProgram<T,D> mcp;
+    private Converter<T,D> mcp;
 
-    public MatrixConverter(MatrixConvertionProgram<T,D> mcp) {
+    public MatrixConverter(Converter<T,D> mcp) {
         this.mcp = mcp;
     }
     

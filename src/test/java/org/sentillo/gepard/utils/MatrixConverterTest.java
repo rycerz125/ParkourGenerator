@@ -10,7 +10,7 @@ public class MatrixConverterTest {
         Matrix3d<Boolean> matrix = new Matrix3d<>();
         matrix.setObject(Vector3d.of(0, 0, 0), true);
 
-        MatrixConvertionProgram<Boolean,Integer> mcp = (bool) -> {
+        Converter<Boolean,Integer> mcp = (bool) -> {
             if(bool == true)
                 return 5;
             else

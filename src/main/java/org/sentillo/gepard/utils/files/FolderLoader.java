@@ -17,7 +17,7 @@ public class FolderLoader<T> {
     }
 
     public List<T> load(String assetsFolder){
-        List<LoadedFile> loadedFiles = FolderFileLoader.loadFilesFromFolder(assetsFolder);
+        List<LoadedFile> loadedFiles = FolderFileLoader.loadFilesFromFolder(assetsFolder).getLoadedFiles();
         List<T> objects = new ArrayList<>();
 
         for(LoadedFile file : loadedFiles){
