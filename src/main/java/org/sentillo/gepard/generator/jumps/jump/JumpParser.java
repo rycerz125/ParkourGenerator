@@ -69,7 +69,6 @@ class JumpParser extends TextParser<Jump> {
         }
         jump.visibleLayer(blocks);
         jump.mustEmptyLayer(empty);
-        Jump madeJump = jump.build();
-        return madeJump;
+        return jump.build();
     }
 }

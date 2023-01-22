@@ -9,7 +9,7 @@ import org.sentillo.gepard.utils.Vector3d;
 
 import java.util.List;
 
-public class JumpParserTest {
+class JumpParserTest {
 
     private String testCode = """
         newjump 3+1
@@ -30,28 +30,28 @@ public class JumpParserTest {
     """;
 
     @Test
-    public void testParserNameSet(){
+    void testParserNameSet(){
         JumpParser jp = new JumpParser();
         List<Jump> jumps = jp.parse(testCode);
         Assertions.assertEquals("3+1", jumps.get(0).getName());
     }
 
     @Test
-    public void testParserStartCoords(){
+    void testParserStartCoords(){
         JumpParser jp = new JumpParser();
         List<Jump> jumps = jp.parse(testCode);
         Assertions.assertEquals(new Vector3d(0,0,0), jumps.get(0).getStart());
     }
 
     @Test
-    public void testParserStopCoords(){
+    void testParserStopCoords(){
         JumpParser jp = new JumpParser();
         List<Jump> jumps = jp.parse(testCode);
         Assertions.assertEquals(new Vector3d(4,1,0), jumps.get(0).getStop());
     }
 
     @Test
-    public void testOnCommand(){
+    void testOnCommand(){
         JumpParser jp = new JumpParser();
         List<Jump> jumps = jp.parse(testCode);
         Assertions.assertEquals(BlockType.BLOCK, jumps.get(0).getVisibleLayer().getObject(new Vector3d(0,0,0)));
@@ -59,7 +59,7 @@ public class JumpParserTest {
     }
 
     @Test
-    public void parseMultiple(){
+    void parseMultiple(){
         JumpParser jp = new JumpParser();
         List<Jump> jumps = jp.parse(testCode);
         Assertions.assertEquals("3+1", jumps.get(0).getName());
@@ -67,7 +67,7 @@ public class JumpParserTest {
     }
 
     @Test
-    public void testOnEmptyCommand(){
+    void testOnEmptyCommand(){
         JumpParser jp = new JumpParser();
         List<Jump> jumps = jp.parse(testCode);
         Assertions.assertEquals(true, 

@@ -8,13 +8,13 @@ import org.junit.jupiter.api.Test;
 import org.sentillo.gepard.generator.jumps.jump.Jump;
 import org.sentillo.gepard.generator.jumps.jump.JumpLoader;
 
-public class JumpLoaderTest {
+class JumpLoaderTest {
     
     @Test
-    public void testLoadingJumps(){
+    void testLoadingJumps(){
         JumpLoader jumpLoader = new JumpLoader();
         List<Jump> loadedJumps = jumpLoader.load("src" + File.separator + "test" + File.separator +"testfolder" + File.separator + "assets" + File.separator + "jumps" + File.separator + "jumps");
-        Assertions.assertEquals(1, loadedJumps.size());
+        Assertions.assertEquals(2, loadedJumps.size());
     }
 
 }

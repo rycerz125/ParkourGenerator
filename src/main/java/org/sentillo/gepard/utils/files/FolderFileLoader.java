@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FolderFileLoader {
+
+    private FolderFileLoader(){}
    public static LoadedFiles loadFilesFromFolder(String path){
         List<LoadedFile> loadedFiles = new ArrayList<>();
 
@@ -19,7 +21,7 @@ public class FolderFileLoader {
             + fileName);
 
             if(file.isDirectory()) {
-                for(LoadedFile lfile : loadFilesFromFolder(file.getAbsolutePath()).getLoadedFiles()){
+                for(LoadedFile lfile : loadFilesFromFolder(file.getAbsolutePath()).getFiles()){
                     loadedFiles.add(lfile);
                 }
                 continue;
@@ -29,14 +31,13 @@ public class FolderFileLoader {
             fileBuilder.fileName(fileName);
             fileBuilder.filePath(folderPath.getPath());
 
-            try{
-                FileInputStream fileStream = new FileInputStream(file);
+            try(FileInputStream fileStream = new FileInputStream(file)){
                 String content = new String(fileStream.readAllBytes());
-                fileStream.close();
-
                 fileBuilder.content(content);
             }
-            catch(Exception e){}
+            catch(Exception e){
+
+            }
 
             loadedFiles.add(fileBuilder.build());
         }

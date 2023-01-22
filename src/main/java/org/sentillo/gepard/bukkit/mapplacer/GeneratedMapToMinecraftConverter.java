@@ -5,11 +5,11 @@ import java.util.HashMap;
 import org.bukkit.Material;
 import org.sentillo.gepard.utils.McBlock;
 
-public class ConversionMap {
+public class GeneratedMapToMinecraftConverter {
 
     private HashMap<McBlock,Material> conversionMap;
 
-    public ConversionMap(String conversionMapPath){
+    public GeneratedMapToMinecraftConverter(String conversionMapPath){
         conversionMap = ConversionMapLoader.loadConversionMap(conversionMapPath);
     }
 

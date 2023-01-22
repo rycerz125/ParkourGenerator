@@ -34,7 +34,7 @@ public class JumpsMapParser extends TextParser<JumpsMap>{
             if(args[0].equals("add")){
                 Optional<Jump> jump = jumpService.get(args[1]);
                 if(!jump.isPresent()){
-                    logger.error("Jump with name \""+args[1]+"\" was not found!");
+                    logger.error("Jump with name \"{}\" was not found!",args[1]);
                     continue;
                 }
 

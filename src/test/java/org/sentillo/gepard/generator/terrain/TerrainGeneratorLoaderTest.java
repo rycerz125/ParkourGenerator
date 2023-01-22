@@ -13,7 +13,7 @@ public class TerrainGeneratorLoaderTest {
     @Test
     public void testTerrainGenerationLoader(){
         TerrainGeneratorLoader loader = new TerrainGeneratorLoader();
-        List<TerrainGenerator> terrains = loader.load("src" + File.separator + "test" + File.separator +"testfolder" + File.separator + "assets" + File.separator + "jumps" + File.separator + "jumps");
+        List<TerrainGenerator> terrains = loader.load("src" + File.separator + "test" + File.separator +"testfolder" + File.separator + "assets" + File.separator + "terrains");
         Assertions.assertEquals("tunnel", terrains.get(0).getName());
     }
 }

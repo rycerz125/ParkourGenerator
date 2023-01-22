@@ -7,15 +7,15 @@ import org.sentillo.gepard.generator.terrain.javascript.JavaScriptRunnerFail;
 import org.sentillo.gepard.utils.Matrix3d;
 import org.sentillo.gepard.utils.Vector3d;
 
-public class JavaScriptRunnerTest {
+class JavaScriptRunnerTest {
     @Test
-    public void runJavaScript(){
+    void runJavaScript(){
         JavaScriptRunner jsr = new JavaScriptRunner();
         Assertions.assertEquals(4, jsr.run("2+2"));
     }
 
     @Test
-    public void createCube(){
+    void createCube(){
         JavaScriptRunner jsr = new JavaScriptRunner();
         Matrix3d<Boolean> matrix = new Matrix3d<>(); 
         jsr.bind("world", matrix);
@@ -30,7 +30,7 @@ public class JavaScriptRunnerTest {
     }
 
     @Test
-    public void testClassFilter() {
+    void testClassFilter() {
  
         final String script =
           "var File = Java.type(\"java.io.File\");";

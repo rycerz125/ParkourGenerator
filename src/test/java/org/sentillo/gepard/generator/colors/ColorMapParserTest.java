@@ -13,7 +13,7 @@ import org.sentillo.gepard.utils.Matrix3d;
 import org.sentillo.gepard.utils.McBlock;
 import org.sentillo.gepard.utils.Vector3d;
 
-public class ColorMapParserTest {
+class ColorMapParserTest {
     private String testCode = """
     newcolor Test
         blocktype BLOCK GRASS
@@ -22,14 +22,14 @@ public class ColorMapParserTest {
     """;
 
     @Test
-    public void testParserName(){
+    void testParserName(){
         ColorMapParser cp = new ColorMapParser();
         List<ColorMap> coloristics = cp.parse(testCode);
         Assertions.assertEquals("Test", coloristics.get(0).getName());
     }
 
     @Test
-    public void testMatrixConversion(){
+    void testMatrixConversion(){
         ColorMapParser cp = new ColorMapParser();
         ColorMap coloristic = cp.parse(testCode).get(0);
 

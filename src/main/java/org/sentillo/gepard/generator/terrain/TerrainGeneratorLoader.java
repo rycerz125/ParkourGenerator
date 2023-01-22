@@ -19,7 +19,7 @@ public class TerrainGeneratorLoader extends FolderLoader<TerrainGenerator> {
         LoadedFiles loadedFiles = FolderFileLoader.loadFilesFromFolder(assetsFolder);
         LoadedFiles terrainDefinitions = loadedFiles.findFilesByName("terraininfo");
 
-        for(LoadedFile definitionFile : terrainDefinitions.getLoadedFiles()){
+        for(LoadedFile definitionFile : terrainDefinitions.getFiles()){
             terrainGenerators.add(loadOne(loadedFiles.getAllFromFolder(definitionFile.getFilePath())));
         }
 

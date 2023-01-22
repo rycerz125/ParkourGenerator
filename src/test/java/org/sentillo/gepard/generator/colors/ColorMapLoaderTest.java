@@ -8,10 +8,10 @@ import org.junit.jupiter.api.Test;
 import org.sentillo.gepard.generator.colors.ColorMap;
 import org.sentillo.gepard.generator.colors.ColorMapLoader;
 
-public class ColorMapLoaderTest {
+class ColorMapLoaderTest {
     
     @Test
-    public void testLoader(){
+    void testLoader(){
         ColorMapLoader loader = new ColorMapLoader();
         List<ColorMap> loadedColoristics = loader.load("src" + File.separator + "test" + File.separator + "testfolder" + File.separator + "assets" + File.separator + "coloristics");
         Assertions.assertEquals(1, loadedColoristics.size());

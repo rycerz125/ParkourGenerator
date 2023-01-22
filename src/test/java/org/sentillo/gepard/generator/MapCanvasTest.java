@@ -15,9 +15,9 @@ import org.sentillo.gepard.utils.Vector3d;
 import java.io.File;
 import java.util.List;
 
-public class MapCanvasTest {
+class MapCanvasTest {
     @Test
-    public void convertToBlockTest(){
+    void convertToBlockTest(){
         JumpsGeneratorService jumpsGeneratorService = new JumpsGeneratorService("src" + File.separator + "test" + File.separator +"testfolder" + File.separator + "assets" + File.separator + "jumps");
         GeneratedJumpLayers map = jumpsGeneratorService.generateJumpLayers("onlyReal4", "realTest", 5);
 
@@ -30,7 +30,7 @@ public class MapCanvasTest {
 
     }
     @Test
-    public void bakeToOneMapTest(){
+    void bakeToOneMapTest(){
         Matrix3d<McBlock> terrain = new Matrix3d<>();
         terrain.setObject(new Vector3d(50 , 50 ,0), McBlock.GRASS);
 

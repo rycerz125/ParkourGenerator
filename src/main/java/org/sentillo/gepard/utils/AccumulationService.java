@@ -16,7 +16,7 @@ public class AccumulationService<T extends Named> {
     public AccumulationService(){}
 
     public AccumulationService(String assetsPath, FolderLoader<T> folderLoader){
-        logger.info("Loading objects on "+getClass()+"...");
+        logger.info("Loading objects on {}...", getClass().getName());
         List<T> loadedJumps = folderLoader.load(assetsPath);
 
         for(T j : loadedJumps){

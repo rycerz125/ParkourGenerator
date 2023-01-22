@@ -24,7 +24,7 @@ public class JumpsGeneratorService {
 
     public GeneratedJumpLayers generateJumpLayers(String jumpMap, String seed, int jumpsCount){
         GeneratedJumpLayers generatedJumpMap = new GeneratedJumpLayers();
-        List<Jump> mapJumps = jumpSpecificationsService.get(jumpMap).get().generateJumps(jumpsCount, seed);
+        List<Jump> mapJumps = jumpSpecificationsService.get(jumpMap).orElseThrow().generateJumps(jumpsCount, seed);
 
         Vector3d pointer = Vector3d.zero();
 

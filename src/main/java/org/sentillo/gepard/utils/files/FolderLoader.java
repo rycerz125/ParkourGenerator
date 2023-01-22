@@ -17,13 +17,13 @@ public class FolderLoader<T> {
     }
 
     public List<T> load(String assetsFolder){
-        List<LoadedFile> loadedFiles = FolderFileLoader.loadFilesFromFolder(assetsFolder).getLoadedFiles();
+        List<LoadedFile> loadedFiles = FolderFileLoader.loadFilesFromFolder(assetsFolder).getFiles();
         List<T> objects = new ArrayList<>();
 
         for(LoadedFile file : loadedFiles){
-            logger.info("Parsing file "+ file.getFilePath() + File.separator + file.getFileName() + "...");
+            logger.info("Parsing file {}...", file.getFilePath() + File.separator + file.getFileName());
             List<T> newObjects = textParser.parse(file.getContent());
-            logger.info("Found "+newObjects.size()+" objects.");
+            logger.info("Found {} objects.", newObjects.size());
 
             for(T obj : newObjects){
                 objects.add(obj);

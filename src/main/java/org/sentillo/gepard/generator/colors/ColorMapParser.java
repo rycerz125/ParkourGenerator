@@ -1,6 +1,6 @@
 package org.sentillo.gepard.generator.colors;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 import org.sentillo.gepard.generator.jumps.BlockType;
@@ -17,8 +17,8 @@ class ColorMapParser extends TextParser<ColorMap>{
     @Override
     public ColorMap parseOne(String code){
         String name = "None";
-        Map<BlockType, McBlock> jumpBlockMcBlockMap = new HashMap<>();
-        Map<TerrainColor, McBlock> terrainColorMcBlockMap = new HashMap<>();
+        Map<BlockType, McBlock> jumpBlockMcBlockMap = new EnumMap<>(BlockType.class);
+        Map<TerrainColor, McBlock> terrainColorMcBlockMap = new EnumMap<>(TerrainColor.class);
 
         for(String codeLine : code.split("\n")){
             String[] args = codeLine.trim().split(" ");

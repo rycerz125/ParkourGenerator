@@ -4,10 +4,10 @@ import java.io.File;
 
 import org.junit.jupiter.api.Test;
 
-public class ConversionMapLoaderTest {
+class ConversionMapLoaderTest {
     
     @Test
-    public void conversionTest(){
+    void conversionTest(){
         ConversionMapLoader.loadConversionMap("src" + File.separator + "test" + File.separator +"testfolder" + File.separator + "assets" + File.separator + "bukkit");
         
 

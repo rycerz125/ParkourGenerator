@@ -2,9 +2,9 @@ package org.sentillo.gepard.bukkit.mapplacer;
 
 import org.junit.jupiter.api.Test;
 
-public class MapConverterTest {
+class MapConverterTest {
     @Test
-    public void firstTest(){
+    void firstTest(){
         
     }
 }
