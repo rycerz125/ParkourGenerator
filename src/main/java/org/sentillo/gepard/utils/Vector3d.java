@@ -1,5 +1,7 @@
 package org.sentillo.gepard.utils;
 
+import org.bukkit.util.Vector;
+
 public class Vector3d {
     int x,y,z;
     public Vector3d(int x,int y,int z){
@@ -55,5 +57,8 @@ public class Vector3d {
 
     public Vector3d copy(){
         return Vector3d.of(x, y, z);
+    }
+    public Vector toVector(){
+        return new Vector(x,y,z);
     }
 }

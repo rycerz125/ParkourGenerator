@@ -4,3 +4,7 @@ version: 0.1
 description: This plugin generates parkour maps.
 api-version: 1.19
 authors: [wuza8, rycerz125]
+commands:
+  generate:
+    description: Generate a map
+    usage: /generate [options]
