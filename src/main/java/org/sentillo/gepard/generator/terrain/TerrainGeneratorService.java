@@ -9,6 +9,6 @@ public class TerrainGeneratorService extends AccumulationService<TerrainGenerato
         super(assetsFolder, new TerrainGeneratorLoader());
     }
     public Matrix3d<TerrainColor> generate(String terrainType, TerrainMetadata metadata, String seed, Matrix3d<Boolean> mustBeAirLayer, Matrix3d<McBlock> jumpBlocksLayer){
-        return null;
+        return new Matrix3d<>();
     }
 }

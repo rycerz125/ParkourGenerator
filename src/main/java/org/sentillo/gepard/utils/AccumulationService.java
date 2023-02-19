@@ -29,6 +29,7 @@ public class AccumulationService<T extends Named> {
     }
 
     private void add(T object) {
-        accumulatedObjects.put(object.getName(), object);
+        if(object != null)
+            accumulatedObjects.put(object.getName(), object);
     }
 }

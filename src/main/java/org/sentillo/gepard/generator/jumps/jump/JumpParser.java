@@ -42,12 +42,27 @@ class JumpParser extends TextParser<Jump> {
             }
 
             else if(args[0].equals("onvisible")){
-                blocks.setObject(new Vector3d(
-                    Integer.parseInt(args[1]),
-                    Integer.parseInt(args[2]),
-                    Integer.parseInt(args[3])),
-                    BlockType.valueOf(args[4].toUpperCase(Locale.ROOT))
-                );
+                if(args[4].equals("box")){
+                    blocks.setBox(
+                            Vector3d.of(
+                                    Integer.parseInt(args[1]),
+                                    Integer.parseInt(args[2]),
+                                    Integer.parseInt(args[3])),
+                            Vector3d.of(
+                                    Integer.parseInt(args[5]),
+                                    Integer.parseInt(args[6]),
+                                    Integer.parseInt(args[7])),
+                            BlockType.valueOf(args[8].toUpperCase(Locale.ROOT))
+                    );
+                } else{
+                    blocks.setObject(new Vector3d(
+                                    Integer.parseInt(args[1]),
+                                    Integer.parseInt(args[2]),
+                                    Integer.parseInt(args[3])),
+                            BlockType.valueOf(args[4].toUpperCase(Locale.ROOT))
+                    );
+                }
+
             }
             else if(args[0].equals("onempty")){
                 if(args[4].equals("box")){
@@ -63,7 +78,12 @@ class JumpParser extends TextParser<Jump> {
                         Boolean.parseBoolean(args[8])
                     );
                 } else{
-                    //TODO: :o
+                    empty.setObject(new Vector3d(
+                                    Integer.parseInt(args[1]),
+                                    Integer.parseInt(args[2]),
+                                    Integer.parseInt(args[3])),
+                            Boolean.valueOf(args[4])
+                    );
                 }
             }
         }
