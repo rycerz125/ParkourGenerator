@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
-public abstract class TerrainGenerator implements Named{
+public class TerrainGenerator implements Named{
     @Getter
     private String name;
 

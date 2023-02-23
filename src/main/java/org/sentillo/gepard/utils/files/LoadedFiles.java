@@ -11,6 +11,14 @@ public class LoadedFiles {
     @Getter
     private List<LoadedFile> files;
 
+    public LoadedFile findFileByName(String name){
+        for(LoadedFile f : files){
+            if(f.getFileName().equals(name))
+                return f;
+        }
+        return null;
+    }
+
     public LoadedFiles findFilesByName(String name){
         List<LoadedFile> found = new ArrayList<>();
 
