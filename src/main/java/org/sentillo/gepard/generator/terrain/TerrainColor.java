@@ -1,5 +1,5 @@
 package org.sentillo.gepard.generator.terrain;
 
 public enum TerrainColor {
-    LIQUID, SURFACE, INTERIOR
+    LIQUID, SURFACE, INTERIOR, BLOCK1
 }

@@ -65,6 +65,15 @@ public class Matrix3d <T>{
                 }
     }
 
+    public void setEllipse(Vector3d a, int radius, T obj){
+        for(int x = -radius;x <= radius; x++)
+            for(int y= -radius;y <= radius; y++)
+                for(int z= -radius;z <= radius; z++){
+                    if(Math.sqrt(x*x+y*y+z*z) <= 1.0d* radius)
+                        this.setObject(new Vector3d(x+a.getX(), y+a.getY(), z+a.getZ()), obj);
+                }
+    }
+
     public void place(Matrix3d<T> matrixToPlace, Vector3d shift){
         for(Vector3d vector3d : matrixToPlace.objects.keySet()){
             objects.put(vector3d.add(shift), matrixToPlace.getObject(vector3d));

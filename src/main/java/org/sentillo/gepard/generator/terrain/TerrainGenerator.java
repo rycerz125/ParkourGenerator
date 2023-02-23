@@ -7,15 +7,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
-public abstract class TerrainGenerator implements Named{
+public class TerrainGenerator implements Named{
     @Getter
     private String name;
 
+    @Getter
     private String code;
 
+    @Getter
     private TerrainMetadata defaultMetadata;
-
-    public Matrix3d<Short> generateTerrain(TerrainMetadata terrainMetadata){
-        return null;
-    }
 }

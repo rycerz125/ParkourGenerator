@@ -2,20 +2,18 @@ package org.sentillo.gepard.generator.terrain.javascript;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.sentillo.gepard.generator.terrain.javascript.JavaScriptRunner;
-import org.sentillo.gepard.generator.terrain.javascript.JavaScriptRunnerFail;
 import org.sentillo.gepard.utils.Matrix3d;
 import org.sentillo.gepard.utils.Vector3d;
 
 class JavaScriptRunnerTest {
     @Test
-    void runJavaScript(){
+    void runJavaScript() throws Exception{
         JavaScriptRunner jsr = new JavaScriptRunner();
         Assertions.assertEquals(4, jsr.run("2+2"));
     }
 
     @Test
-    void createCube(){
+    void createCube() throws Exception{
         JavaScriptRunner jsr = new JavaScriptRunner();
         Matrix3d<Boolean> matrix = new Matrix3d<>(); 
         jsr.bind("world", matrix);
@@ -30,12 +28,12 @@ class JavaScriptRunnerTest {
     }
 
     @Test
-    void testClassFilter() {
+    void testClassFilter() throws Exception {
  
         final String script =
           "var File = Java.type(\"java.io.File\");";
      
         JavaScriptRunner jsr = new JavaScriptRunner();
-        Assertions.assertEquals(JavaScriptRunnerFail.class, jsr.run(script).getClass());
+        Assertions.assertEquals(RuntimeException.class, jsr.run(script).getClass());
       }
 }

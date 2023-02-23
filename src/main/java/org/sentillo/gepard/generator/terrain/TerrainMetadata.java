@@ -7,7 +7,10 @@ public class TerrainMetadata {
     private HashMap<String,String> values;
 
     public TerrainMetadata(HashMap<String, String> values){
-        this.values = values;
+        if(values != null)
+            this.values = values;
+        else
+            this.values = new HashMap<>();
     }
 
     public String getValue(String name){

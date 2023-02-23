@@ -62,4 +62,13 @@ public class Matrix3dTest {
         Assertions.assertEquals('b', matrix3dA.getObject(Vector3d.of(0,1,0)));
         Assertions.assertEquals('b', matrix3dA.getObject(Vector3d.of(0,1,1)));
     }
+
+    @Test
+    public void placeEllipse(){
+        Matrix3d<McBlock> world = new Matrix3d<>();
+
+        world.setEllipse(Vector3d.of(10,5,10), 10, McBlock.GRASS);
+
+        Assertions.assertEquals(McBlock.GRASS, world.getObject(Vector3d.of(10,5,10)));
+    }
 }

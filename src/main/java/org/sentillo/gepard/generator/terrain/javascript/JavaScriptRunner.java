@@ -13,19 +13,17 @@ public class JavaScriptRunner {
 
     public JavaScriptRunner(){
         scriptEngine = new NashornScriptEngineFactory()
-                .getScriptEngine(new JavaScriptClassFilter());
+                .getScriptEngine(); //Class filter is not there,
+        // it destroys usage of TerrainColor class TODO
         bindings = scriptEngine.getBindings(ScriptContext.ENGINE_SCOPE);
     }
 
-    public Object run(String code){
+    public Object run(String code) throws Exception{
         Object result = null;
 
-        try{
-            result = scriptEngine.eval(code);
-        }
-        catch(Exception ex){
-            return new JavaScriptRunnerFail();
-        }
+        result = scriptEngine.eval(code);
+
+
         return result;
     }
 
