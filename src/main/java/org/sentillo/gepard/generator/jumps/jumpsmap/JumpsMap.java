@@ -25,7 +25,7 @@ public class JumpsMap implements Named{
         Random random = new Random(seed.hashCode());
 
         for(int i=0;i<number; i++){
-            int r = random.nextInt();
+            int r = Math.abs(random.nextInt());
             Jump j = jumpsSpecifications.get(r%jumpsSpecifications.size()).getJump();
             jumps.add(j);
         }

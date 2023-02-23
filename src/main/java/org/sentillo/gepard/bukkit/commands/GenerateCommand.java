@@ -46,7 +46,7 @@ public class GenerateCommand implements CommandExecutor {
             if(mcBlock == McBlock.AIR)
                 block.setType(Material.AIR);
             if(mcBlock == McBlock.GRASS)
-                block.setType(Material.GRASS);
+                block.setType(Material.GRASS_BLOCK);
             if(mcBlock == McBlock.WATER)
                 block.setType(Material.WATER);
         }
