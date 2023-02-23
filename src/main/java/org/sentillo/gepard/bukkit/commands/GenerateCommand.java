@@ -28,9 +28,9 @@ public class GenerateCommand implements CommandExecutor {
         me.put("circleSize", "7");
         TerrainMetadata metadata = new TerrainMetadata(me);
         ParkourGeneratorSetup parkourGeneratorSetup =
-                new ParkourGeneratorSetup("only4","Tunnel","Test",metadata);
+                new ParkourGeneratorSetup(strings[0],strings[1],strings[2],metadata);
         Matrix3d<McBlock> blockMatrix3d =
-                parkourGeneratorService.generateMap(parkourGeneratorSetup,"seed", 10);
+                parkourGeneratorService.generateMap(parkourGeneratorSetup,strings[3], 10);
 
         Location location = player.getLocation();
         placeMap(location, blockMatrix3d);

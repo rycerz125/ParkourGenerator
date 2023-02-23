@@ -1,3 +1,5 @@
 newcolor Test
     blocktype BLOCK GRASS
+    terraincolor BLOCK1 GRASS
+    terraincolor AIR AIR
 colorend

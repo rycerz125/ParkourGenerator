@@ -1,7 +1,7 @@
-jumpBlocks.foreach((block)=>{
-	world.drawElipse(block.position(), TerrainColor.MAIN,  metadata.getValue("circleSize"))
-})
+jumpBlocks.getAllLocations().forEach(function (location) {
+    world.setEllipse(location, 10, 1);
+});
 
-jumpBlocks.foreach((block)=>{
-    world.drawElipse(block.position(), TerrainColor.AIR, metadata.getValue("circleSize")-2)
-})
+jumpBlocks.getAllLocations().forEach(function (location) {
+    world.setEllipse(location, 9, 0);
+});

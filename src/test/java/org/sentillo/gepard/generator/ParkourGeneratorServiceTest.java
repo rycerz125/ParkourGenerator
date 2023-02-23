@@ -15,7 +15,7 @@ public class ParkourGeneratorServiceTest {
         var s = parkourGeneratorService.generateMap(
                 new ParkourGeneratorSetup(
                         "only4",
-                        "tunnel",
+                        "Tunnel",
                         "Test",
                         new TerrainMetadata(new HashMap<>())), "0", 20);
 

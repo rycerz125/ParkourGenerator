@@ -36,7 +36,7 @@ public class TerrainGeneratorLoader extends FolderLoader<TerrainGenerator> {
         String codeFileName = metaData.get("run");
         String code = terrainFolder.findFileByName(codeFileName).getContent();
 
-        return new TerrainGenerator(name,code, new TerrainMetadata(metaData));
+        return new TerrainGenerator(name.trim(),code, new TerrainMetadata(metaData));
     }
     public HashMap<String,String> constructMetaData(String[] lines){
         HashMap<String,String> metaData = new HashMap<>();

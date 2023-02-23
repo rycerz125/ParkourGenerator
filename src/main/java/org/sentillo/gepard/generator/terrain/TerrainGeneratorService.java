@@ -4,6 +4,7 @@ import org.sentillo.gepard.generator.terrain.javascript.JavaScriptRunner;
 import org.sentillo.gepard.utils.AccumulationService;
 import org.sentillo.gepard.utils.Matrix3d;
 import org.sentillo.gepard.utils.McBlock;
+import org.sentillo.gepard.utils.Vector3d;
 
 public class TerrainGeneratorService extends AccumulationService<TerrainGenerator>{
     public TerrainGeneratorService(String assetsFolder){
@@ -11,13 +12,7 @@ public class TerrainGeneratorService extends AccumulationService<TerrainGenerato
     }
     public Matrix3d<TerrainColor> generate(String terrainType, TerrainMetadata metadata, String seed, Matrix3d<Boolean> mustBeAirLayer, Matrix3d<McBlock> jumpBlocksLayer){
         JavaScriptRunner jsRunner = new JavaScriptRunner();
-        Matrix3d<TerrainColor> world = new Matrix3d<>();
-
-        TerrainGenerator tunnel = new TerrainGenerator("tunnel", "jumpBlocks.getAllLocations().forEach(function (location) {\n" +
-                "world.setEllipse(location, 10, Java.type(\"org.sentillo.gepard.generator.terrain.TerrainColor\").BLOCK1);\n" +
-                "}); world", new TerrainMetadata(null));
-
-        accumulatedObjects.put("tunnel", tunnel);
+        Matrix3d<Integer> world = new Matrix3d<>();
 
         TerrainGenerator tGenerator = accumulatedObjects.get(terrainType);
         if(tGenerator == null) throw new RuntimeException("Terrain with name "+ terrainType + " not found!");
@@ -29,15 +24,26 @@ public class TerrainGeneratorService extends AccumulationService<TerrainGenerato
 
         jsRunner.bind("jumpBlocks", jumpBlocksLayer);
         jsRunner.bind("TerrainColor", TerrainColor.class);
+        jsRunner.bind("Vector3d", Vector3d.class);
         jsRunner.bind("world", world);
         try {
-            Object r = jsRunner.run(tunnel.getCode());
-            System.out.print(r);
+            Object r = jsRunner.run(tGenerator.getCode());
         }
         catch(Exception ex){
             ex.printStackTrace();
         }
 
-        return world;
+        Matrix3d<TerrainColor> actualWorld = new Matrix3d<>();
+
+        for(Vector3d pos : world.getAllLocations()){
+            TerrainColor tcol;
+
+            if(world.getObject(pos) == 0) tcol = TerrainColor.AIR;
+            else tcol = TerrainColor.BLOCK1;
+
+            actualWorld.setObject(pos, tcol);
+        }
+
+        return actualWorld;
     }
 }

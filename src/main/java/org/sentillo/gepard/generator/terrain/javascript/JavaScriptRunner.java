@@ -5,6 +5,7 @@ import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 
 import org.openjdk.nashorn.api.scripting.NashornScriptEngineFactory;
+import org.sentillo.gepard.utils.Vector3d;
 
 public class JavaScriptRunner {
 
@@ -14,6 +15,8 @@ public class JavaScriptRunner {
     public JavaScriptRunner(){
         scriptEngine = new NashornScriptEngineFactory()
                 .getScriptEngine(); //Class filter is not there,
+
+        scriptEngine.put("Vec", Vector3d.class);
         // it destroys usage of TerrainColor class TODO
         bindings = scriptEngine.getBindings(ScriptContext.ENGINE_SCOPE);
     }

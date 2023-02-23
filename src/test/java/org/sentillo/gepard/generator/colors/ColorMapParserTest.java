@@ -18,6 +18,7 @@ class ColorMapParserTest {
     newcolor Test
         blocktype BLOCK GRASS
         terraincolor LIQUID WATER
+        terraincolor BLOCK1 GRASS
     colorend
     """;
 
