@@ -2,6 +2,7 @@ package org.sentillo.gepard.generator.terrain.functions;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.sentillo.gepard.utils.Matrix3d;
 import org.sentillo.gepard.utils.Vector3d;
 import org.sentillo.gepard.utils.Vector3dDouble;
 
@@ -86,6 +87,56 @@ public class FunctionGeneratorTest {
         Assertions.assertEquals(1.5,vector.y);
         Assertions.assertEquals(1.7499999999999973,vector.z);
     }
+    @Test
+    public void generateMatrixIterateGridTest(){
+        BlockSpace blockSpace = new BlockSpace(new HashSet<>(), new RectangularSpaceInt(10,10,10,0,0,0));
+        blockSpace.generateFullBlockDomain();
+        FunctionY functionY = new FunctionY(new RectangularSpaceDouble(1,1,1,0,0,0),
+                blockSpace.boundaries, 3) {
+            @Override
+            public double getY(double x, double z) {
+                return x+z;
+            }
+        };
+        FunctionGenerator functionGenerator = new FunctionGenerator(blockSpace,functionY);
+        Matrix3d<Boolean> generated = functionGenerator.generateMatrixGridIterate(1.2);
+        for(int x = blockSpace.boundaries.minX ; x <= blockSpace.boundaries.maxX ; x++) {
+            System.out.println();
+            for (int y = blockSpace.boundaries.minY; y <= blockSpace.boundaries.maxY; y++) {
+                System.out.println();
+                for (int z = blockSpace.boundaries.minZ; z <= blockSpace.boundaries.maxZ; z++)
+                    System.out.print(generated.getObject(new Vector3d(x, y, z)) + "  ");
+            }
+        }
+    }
+    @Test
+    public void checkEqualityOfGenerations(){
+        BlockSpace blockSpace = new BlockSpace(new HashSet<>(), new RectangularSpaceInt(20,20,20,0,0,0));
+        blockSpace.generateFullBlockDomain();
+        FunctionY functionY = new FunctionY(new RectangularSpaceDouble(1,1,1,0,0,0),
+                blockSpace.boundaries, 3) {
+            @Override
+            public double getY(double x, double z) {
+                return x*x+z*z;
+            }
+        };
+        FunctionGenerator functionGenerator = new FunctionGenerator(blockSpace,functionY);
 
+        long tic = System.currentTimeMillis();
+        Matrix3d<Boolean> generatedByGrid = functionGenerator.generateMatrixGridIterate(1.2);
+        System.out.println("po siatce[ms]: " +  (System.currentTimeMillis()-tic));
+
+        tic = System.currentTimeMillis();
+        Matrix3d<Boolean> generatedByBlocks = functionGenerator.generateMatrixBlockIterate(1.2);
+        System.out.println("po blokach[ms]: " +  (System.currentTimeMillis()-tic));
+        for(int x = blockSpace.boundaries.minX ; x <= blockSpace.boundaries.maxX ; x++) {
+            for (int y = blockSpace.boundaries.minY; y <= blockSpace.boundaries.maxY; y++) {
+                for (int z = blockSpace.boundaries.minZ; z <= blockSpace.boundaries.maxZ; z++){
+                    Vector3d vector3d =  new Vector3d(x,y,z);
+                    Assertions.assertEquals(generatedByGrid.getObject(vector3d) ,generatedByBlocks.getObject(vector3d));
+                }
+            }
+        }
+    }
 
 }
