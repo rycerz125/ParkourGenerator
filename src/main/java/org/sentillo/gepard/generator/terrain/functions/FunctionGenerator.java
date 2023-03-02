@@ -94,7 +94,7 @@ public class FunctionGenerator {
     protected Matrix3d<Boolean> generateMatrixBlockIterate(double surfaceThick){
         Matrix3d<Boolean> generatedBlocks = new Matrix3d<>();
         for(Vector3d blockVector : blockSpace.blockDomain){
-            if(blockIsCloseToFunctionSurface(blockVector,surfaceThick))
+            if(blockIsCloseToFunctionSurface(blockVector,surfaceThick/2))
                 generatedBlocks.setObject(blockVector, true);
         }
         return generatedBlocks;
@@ -105,9 +105,9 @@ public class FunctionGenerator {
             for(double zGrid : functionY.gridXZ.dim2){
                 double y = functionY.getY(xGrid,zGrid);
                 Vector3dDouble functionPoint = functionToBlockDomain(new Vector3dDouble(xGrid,y,zGrid));
-                for(Vector3d block : getBlocksNearPoint(functionPoint,surfaceThick)){
+                for(Vector3d block : getBlocksNearPoint(functionPoint,surfaceThick/2)){
                     if(!generatedBlocks.getAllLocations().contains(block))
-                        if(blockIsCloseToPoint(block, functionPoint, surfaceThick))
+                        if(blockIsCloseToPoint(block, functionPoint, surfaceThick/2))
                             generatedBlocks.setObject(block, true);
                 }
             }
