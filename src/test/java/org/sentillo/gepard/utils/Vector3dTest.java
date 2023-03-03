@@ -13,4 +13,10 @@ public class Vector3dTest {
         Assertions.assertEquals(4, vector3d3.getY());
         Assertions.assertEquals(6, vector3d3.getZ());
     }
+    @Test
+    public void distanceTest(){
+        Vector3d vector3d1 = new Vector3d(0,0,0);
+        Vector3d vector3d2 = new Vector3d(1,2,3);
+        Assertions.assertEquals(Math.sqrt(5+9), vector3d1.getDistance(vector3d2));
+    }
 }
