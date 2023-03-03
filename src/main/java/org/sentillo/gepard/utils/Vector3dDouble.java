@@ -11,4 +11,7 @@ public class Vector3dDouble {
     public double getDistanceSquared(Vector3dDouble vector){
         return Math.pow(x-vector.x, 2) + Math.pow(y-vector.y, 2) + Math.pow(z-vector.z, 2);
     }
+    public Vector3d toVector3d(){
+        return new Vector3d((int)x, (int)y,(int) z);
+    }
 }

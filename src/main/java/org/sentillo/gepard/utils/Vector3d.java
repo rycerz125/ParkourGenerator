@@ -68,4 +68,7 @@ public class Vector3d {
     public double getDistanceSquared(Vector3d vector){
         return Math.pow(x-vector.x, 2) + Math.pow(y-vector.y, 2) + Math.pow(z-vector.z, 2);
     }
+    public Vector3dDouble toVector3dDouble(){
+        return new Vector3dDouble(x, y, z);
+    }
 }

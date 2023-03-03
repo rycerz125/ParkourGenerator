@@ -35,4 +35,14 @@ public class Jump implements Named{
     @Builder.Default
     private Matrix3d<Boolean> couldEmptyLayer = new Matrix3d<>();
 
+    public Matrix3d<Boolean> getRestrictedArea(Vector3d shift){
+        Matrix3d<Boolean> layers = new Matrix3d<>();
+        layers.place(mustEmptyLayer,shift);
+        layers.place(couldEmptyLayer, shift);
+        for(Vector3d vector : visibleLayer.getAllLocations()){
+            layers.setObject(vector.add(shift), true);
+        }
+        return layers;
+    }
+
 }
