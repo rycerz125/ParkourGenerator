@@ -11,11 +11,20 @@ public class JumpLineGenerator {
     public List<Vector3dDouble> line;
     public Matrix3d<Boolean> restrictedBlocks;
     public Set<Jump> availableJumps;
+    private Random randomGenerator;
 
     public JumpLineGenerator(List<Vector3dDouble> line, Matrix3d<Boolean> restrictedBlocks, Set<Jump> availableJumps){
         this.line = line;
         this.restrictedBlocks = restrictedBlocks;
         this.availableJumps = availableJumps;
+        randomGenerator = new Random();
+
+    }
+    public JumpLineGenerator(List<Vector3dDouble> line, Matrix3d<Boolean> restrictedBlocks, Set<Jump> availableJumps, long seed){
+        this.line = line;
+        this.restrictedBlocks = restrictedBlocks;
+        this.availableJumps = availableJumps;
+        randomGenerator = new Random(seed);
     }
     private int currentTargetIndex = 0;
 
@@ -85,31 +94,17 @@ public class JumpLineGenerator {
             return bestAngleJump;
         return drawJumpFrom(consistentAngleJumps);
     }
-    protected Jump drawJumpFrom(Set<Jump> jumps){
+    protected Jump drawJumpFrom(Set<Jump> jumps){ // gets random jump from set, zrobic to z seedem
         Jump[] arrayJumps = jumps.toArray(new Jump[jumps.size()]);
-
-        // generate a random number
-        Random rndm = new Random();
-
         // this will generate a random number between 0 and
         // HashSet.size - 1
-        int rndmNumber = rndm.nextInt(jumps.size());
+        int rndmNumber = randomGenerator.nextInt(jumps.size());
         return arrayJumps[rndmNumber];
     }
     private Set<Jump> findPlaceableJumps(Vector3d start){
         Set<Jump> placeableJumps = new HashSet<>(availableJumps);
         placeableJumps.removeIf((jump -> !jumpCanBePlaced(jump, start)));
         return placeableJumps;
-    }
-    private HashMap<Jump, Double> calculateAnglesOf(Set<Jump> jumps, Vector3d start, Vector3dDouble target){
-        HashMap<Jump, Double> jumpAngles = new HashMap<>();
-        for(Jump jump : jumps){
-            jumpAngles.put(
-                    jump,
-                    jump.getStartStopToVectorAngle(target.subtract(start.toVector3dDouble()))
-            );
-        }
-        return jumpAngles;
     }
     
     protected boolean jumpCanBePlaced(Jump jump, Vector3d shift){

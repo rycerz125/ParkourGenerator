@@ -70,7 +70,7 @@ public class JumpLineGeneratorTest {
         JumpParser jp = new JumpParser();
         List<Jump> jumps = jp.parse(testCode);
         Set<Jump> jumpSet = new HashSet<>(jumps);
-        JumpLineGenerator jumpLineGenerator = new JumpLineGenerator(new ArrayList<>(),new Matrix3d<>(),jumpSet);
+        JumpLineGenerator jumpLineGenerator = new JumpLineGenerator(new ArrayList<>(),new Matrix3d<>(),jumpSet,12);
         List<Jump> jumpList1 = new ArrayList<>();
         List<Jump> jumpList2 = new ArrayList<>();
         List<Jump> jumpList3 = new ArrayList<>();
@@ -85,7 +85,14 @@ public class JumpLineGeneratorTest {
             Assertions.assertEquals("4", jumpList2.get(i).getName());
             System.out.println(jumpList3.get(i).getName());
         }
-
+        List<Jump> jumpList4 = new ArrayList<>();
+        jumpLineGenerator.restrictedBlocks.setObject(Vector3d.of(5,0,0),true);
+        for (int i = 0; i < 10; i++) {
+            jumpList4.add(jumpLineGenerator.findMatchingJump(Vector3d.zero(), new Vector3dDouble(4,0,0),0));
+        }
+        for (int i = 0; i < 10; i++) {
+            Assertions.assertEquals("3+1", jumpList4.get(i).getName());
+        }
 
 
     }
