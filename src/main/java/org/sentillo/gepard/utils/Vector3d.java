@@ -74,4 +74,10 @@ public class Vector3d {
     public Vector3d subtract(Vector3d vector){
         return Vector3d.of(x - vector.x,y - vector.y, z - vector.z);
     }
+    public Vector3d get90LeftTurned(){
+        return new Vector3d(getZ(), getY(),- getX());
+    }
+    public Vector3d getMirroredX(){
+        return new Vector3d(getX(), getY(),- getZ());
+    }
 }

@@ -38,4 +38,16 @@ public class JumpTest {
         Assertions.assertNull(restrictedArea.getObject(Vector3d.of(1,1,1).add(Vector3d.of(5,4,3))));
 
     }
+    @Test
+    void cloneTest(){
+        JumpParser jp = new JumpParser();
+        List<Jump> jumps = jp.parse(testCode);
+        Jump jump = jumps.get(0);
+        Assertions.assertEquals("2plus1", jump.getName());
+        Assertions.assertTrue(jump.getMustEmptyLayer().getObject(Vector3d.zero()));
+
+        Jump jump2 = jump.clone();
+        Assertions.assertEquals("2plus1", jump2.getName());
+        Assertions.assertTrue(jump2.getMustEmptyLayer().getObject(Vector3d.zero()));
+    }
 }

@@ -32,4 +32,10 @@ public class BlockMatrix3d extends Matrix3d<BlockType>{
             objects.put(entry.getKey(), BlockType.mirrorZ(entry.getValue()));
         }
     }
+    @Override
+    public BlockMatrix3d copy(){
+        BlockMatrix3d matrix3d = new BlockMatrix3d();
+        matrix3d.place(this, Vector3d.zero());
+        return matrix3d;
+    }
 }

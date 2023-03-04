@@ -4,8 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.sentillo.gepard.utils.*;
@@ -15,24 +18,30 @@ import org.sentillo.gepard.utils.*;
 @AllArgsConstructor
 public class Jump implements Named{
     @Getter
+    @Setter
     private String name;
 
     @Getter
+    @Setter
     @Builder.Default
     private Vector3d start = new Vector3d(0, 0, 0);
 
     @Getter
+    @Setter
     private Vector3d stop;
 
     @Getter
+    @Setter
     @Builder.Default
     private BlockMatrix3d visibleLayer = new BlockMatrix3d();
 
     @Getter
+    @Setter
     @Builder.Default
     private Matrix3d<Boolean> mustEmptyLayer = new Matrix3d<>();
     
     @Getter
+    @Setter
     @Builder.Default
     private Matrix3d<Boolean> couldEmptyLayer = new Matrix3d<>();
 
@@ -79,6 +88,46 @@ public class Jump implements Named{
                 return true;
         }
         return false;
+    }
+    public List<Jump> getAllDirections(){
+        List<Jump> jumps = new ArrayList<>();
+        Jump localJump = this.clone();
+        jumps.add(this);
+        for (int index = 0; index < 3; index++) {
+            localJump.rotateJump90Left();
+            jumps.add(localJump.clone());
+        }
+        localJump.mirrorX();
+        jumps.add(localJump.clone());
+        for (int index = 0; index < 3; index++) {
+            localJump.rotateJump90Left();
+            jumps.add(localJump.clone());
+        }
+        return jumps;
+    }
+    public void rotateJump90Left(){
+        couldEmptyLayer.turn90Left();
+        mustEmptyLayer.turn90Left();
+        visibleLayer.turn90Left();
+        setStart(start.get90LeftTurned());
+        setStop(stop.get90LeftTurned());
+    }
+    public void mirrorX(){
+        couldEmptyLayer.mirrorXAxis();
+        mustEmptyLayer.mirrorXAxis();
+        visibleLayer.mirrorXAxis();
+        setStart(start.getMirroredX());
+        setStop(stop.getMirroredX());
+    }
+    public Jump clone(){
+        Jump jump = new Jump();
+        jump.setCouldEmptyLayer(couldEmptyLayer.copy());
+        jump.setMustEmptyLayer(mustEmptyLayer.copy());
+        jump.setName(name);
+        jump.setStart(start.copy());
+        jump.setStop(stop.copy());
+        jump.setVisibleLayer(visibleLayer.copy());
+        return jump;
     }
 
 }

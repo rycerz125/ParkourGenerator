@@ -82,6 +82,11 @@ public class Matrix3d <T>{
             objects.put(vector3d.add(shift), matrixToPlace.getObject(vector3d));
         }
     }
+    public Matrix3d<T> copy(){
+        Matrix3d<T> matrix3d = new Matrix3d<>();
+        matrix3d.place(this, Vector3d.zero());
+        return matrix3d;
+    }
 
     public long count(){
         return objects.size();
