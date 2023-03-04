@@ -96,4 +96,22 @@ public class JumpLineGeneratorTest {
 
 
     }
+    @Test
+    void generateTest(){
+        JumpParser jp = new JumpParser();
+        List<Jump> jumps = jp.parse(testCode);
+        Set<Jump> jumpSet = new HashSet<>();
+        for(Jump jump : jumps){
+            jumpSet.addAll(jump.getAllDirections());
+        }
+
+        List<Vector3dDouble> line = new ArrayList<>();
+        line.add(new Vector3dDouble(0, 0, 0));
+        line.add(new Vector3dDouble(0,0,15));
+        JumpLineGenerator jumpLineGenerator = new JumpLineGenerator(line,new Matrix3d<>(),jumpSet,12);
+        List<Jump> generated = jumpLineGenerator.generate(0);
+        for(Jump jump : generated){
+            System.out.println(jump.getName());
+        }
+    }
 }
