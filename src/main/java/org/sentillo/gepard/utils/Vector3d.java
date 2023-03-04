@@ -71,4 +71,7 @@ public class Vector3d {
     public Vector3dDouble toVector3dDouble(){
         return new Vector3dDouble(x, y, z);
     }
+    public Vector3d subtract(Vector3d vector){
+        return Vector3d.of(x - vector.x,y - vector.y, z - vector.z);
+    }
 }

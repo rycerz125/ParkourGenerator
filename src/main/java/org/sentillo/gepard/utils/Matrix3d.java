@@ -14,6 +14,9 @@ public class Matrix3d <T>{
     public T getObject(Vector3d vector3d){
         return objects.get(vector3d);
     }
+    public void remove(Vector3d vector3d){
+        objects.remove(vector3d);
+    }
 
     public void turn90Left(){
         HashMap<Vector3d,T> turned = new HashMap<>();

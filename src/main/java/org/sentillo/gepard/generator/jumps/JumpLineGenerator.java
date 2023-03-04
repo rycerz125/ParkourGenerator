@@ -12,12 +12,14 @@ public class JumpLineGenerator {
     public Matrix3d<Boolean> restrictedBlocks;
     public Set<Jump> availableJumps;
     private Random randomGenerator;
+    private double maxDistanceSquared;
 
     public JumpLineGenerator(List<Vector3dDouble> line, Matrix3d<Boolean> restrictedBlocks, Set<Jump> availableJumps){
         this.line = line;
         this.restrictedBlocks = restrictedBlocks;
         this.availableJumps = availableJumps;
         randomGenerator = new Random();
+        maxDistanceSquared = getMaxJumpDistanceSquared();
 
     }
     public JumpLineGenerator(List<Vector3dDouble> line, Matrix3d<Boolean> restrictedBlocks, Set<Jump> availableJumps, long seed){
@@ -25,6 +27,7 @@ public class JumpLineGenerator {
         this.restrictedBlocks = restrictedBlocks;
         this.availableJumps = availableJumps;
         randomGenerator = new Random(seed);
+        maxDistanceSquared = getMaxJumpDistanceSquared();
     }
     private int currentTargetIndex = 0;
 
@@ -33,19 +36,17 @@ public class JumpLineGenerator {
         Vector3dDouble targetPoint = nextTarget();
 
         List<Jump> jumps = new ArrayList<>();
-        double maxDistanceSquare = getMaxJumpDistanceSquared();
-
         while(notLastTarget()){
-            if(startPoint.toVector3dDouble().getDistanceSquared(targetPoint) <= maxDistanceSquare/4){
+            if(startPoint.toVector3dDouble().getDistanceSquared(targetPoint) <= maxDistanceSquared/4){
                 targetPoint = nextTarget();
             }else{
                 Jump jump = findMatchingJump(startPoint, targetPoint,angleSuggestion);
                 jumps.add(jump);
                 restrictedBlocks.place(jump.getRestrictedArea(Vector3d.zero()), startPoint);
-                startPoint = jump.getStop();
+                startPoint = startPoint.add(jump.getStartStopVector());
             }
         }
-        jumps.addAll(findFinalJumpLine(startPoint,targetPoint));
+        jumps.addAll(findFinalJumpLine(startPoint,targetPoint,angleSuggestion));
         return jumps;
     }
     private Vector3dDouble nextTarget(){
@@ -62,7 +63,104 @@ public class JumpLineGenerator {
         return maxDistance;
     }
 
-    private List<Jump> findFinalJumpLine(Vector3d startPoint, Vector3dDouble targetPoint) {
+    private List<Jump> findFinalJumpLine(Vector3d start, Vector3dDouble targetPoint, double angleSuggestion) {
+        Vector3d endCasted = targetPoint.toVector3d();
+        List<Jump> finalJumpList = new ArrayList<>();
+        Jump fitJump = getFitJump(start, endCasted);
+        if(fitJump != null) {
+            finalJumpList.add(fitJump);
+            return finalJumpList;
+        }
+        Vector3d startPoint = start;
+
+
+        while(startPoint.toVector3dDouble().getDistanceSquared(targetPoint) > maxDistanceSquared*4){
+            Jump jump = findMatchingJump(startPoint, targetPoint,angleSuggestion);
+            finalJumpList.add(jump);
+            restrictedBlocks.place(jump.getRestrictedArea(Vector3d.zero()), startPoint);
+            startPoint = startPoint.add(jump.getStartStopVector());
+        }
+
+        Set<Jump> availableNotCheckedPenultimateJumps = new HashSet<>(availableJumps);
+        // Matrix3d<Boolean> restrictedBlocksCopy = new Matrix3d<>();
+        // restrictedBlocksCopy.place(restrictedBlocks, Vector3d.zero());
+
+
+        HashMap<Jump, Vector3d> possibleLastJumpStarts = getPossibleLastJumpStarts(endCasted);
+
+        boolean notReturnedFirstTime = true;
+        while(true){
+            //HashMap<Jump, Vector3d> possibleFirstJumpEnds = getPossibleFirstJumpEnds(startPoint, restrictedBlocksCopy);
+            HashMap<Jump, Vector3d> possibleFirstJumpEnds = getPossibleFirstJumpEnds(startPoint);
+
+            HashMap<Jump, Jump> commonPointPairs = getCommonPointJumps(possibleFirstJumpEnds,possibleLastJumpStarts);
+    
+            if(commonPointPairs.size() != 0){
+                for(Jump jumpFirst : commonPointPairs.keySet()){
+                    Jump jumpSecond = commonPointPairs.get(jumpFirst);
+                    if(jumpFirst.collidesWithNext(jumpSecond)){
+                        finalJumpList.add(jumpFirst);
+                        finalJumpList.add(jumpSecond);
+                        return finalJumpList;
+                    }
+                }
+            }
+    
+            if(!notReturnedFirstTime){
+                //restrictedBlocksCopy = new Matrix3d<>(); // przywrocenie stanu sprzed dodania dodatkowego skoku
+                //restrictedBlocksCopy.place(restrictedBlocks, Vector3d.zero());
+                Jump lastJump = finalJumpList.get(finalJumpList.size()-1);
+                restrictedBlocks.place(lastJump.getRestrictedAreaOnlyTrueAndInverted(startPoint), Vector3d.zero());
+                startPoint = startPoint.subtract(lastJump.getStartStopVector());
+                finalJumpList.remove(finalJumpList.size()-1);
+            }
+            Jump jump = findMatchingJump(startPoint, targetPoint,angleSuggestion,availableNotCheckedPenultimateJumps,restrictedBlocksCopy);
+            finalJumpList.add(jump);
+            restrictedBlocksCopy.place(jump.getRestrictedArea(Vector3d.zero()), startPoint);
+            startPoint = startPoint.add(jump.getStartStopVector());
+            notReturnedFirstTime = false;
+            availableNotCheckedPenultimateJumps.remove(jump);
+        }
+    }
+    protected HashMap<Jump, Jump> getCommonPointJumps(HashMap<Jump, Vector3d> possibleFirstJumpEnds, HashMap<Jump, Vector3d> possibleLastJumpStarts){
+        HashMap<Jump, Jump> commonPointPairs = new HashMap<>();
+
+        for(Jump jumpFirst : possibleFirstJumpEnds.keySet()){
+            Vector3d firstJumpEnd = possibleFirstJumpEnds.get(jumpFirst);
+            for(Jump jumpLast : possibleLastJumpStarts.keySet()){
+                Vector3d lastJumpStart = possibleLastJumpStarts.get(jumpLast);
+                if(firstJumpEnd.equals(lastJumpStart))
+                    commonPointPairs.put(jumpFirst, jumpLast);
+            }
+        }
+        return commonPointPairs;
+    }
+    protected HashMap<Jump, Vector3d> getPossibleFirstJumpEnds(Vector3d start){
+        return getPossibleFirstJumpEnds(start,restrictedBlocks);
+    }
+    protected HashMap<Jump, Vector3d> getPossibleFirstJumpEnds(Vector3d start, Matrix3d<Boolean> restrictedArea){
+        HashMap<Jump, Vector3d> possibleFirstJumpEnds = new HashMap<>();
+        for(Jump jump : availableJumps){
+            if(jumpCanBePlaced(jump,start,restrictedArea))
+                possibleFirstJumpEnds.put(jump, start.add(jump.getStartStopVector()));
+        }
+        return possibleFirstJumpEnds;
+    }
+
+    protected HashMap<Jump, Vector3d>  getPossibleLastJumpStarts(Vector3d end){
+        HashMap<Jump, Vector3d> possibleLastJumpStarts = new HashMap<>();
+        for(Jump jump : availableJumps){
+            Vector3d jumpStartPoint = end.subtract(jump.getStartStopVector());
+            if(jumpCanBePlaced(jump, jumpStartPoint))
+                possibleLastJumpStarts.put(jump, jumpStartPoint);
+        }
+        return possibleLastJumpStarts;
+    }
+    protected Jump getFitJump(Vector3d startPoint, Vector3d target){
+        for(Jump jump : availableJumps){
+            if(jump.getStartStopVector().equals(target.subtract(startPoint)) && jumpCanBePlaced(jump,startPoint))
+                return jump;
+        }
         return null;
     }
 
@@ -71,7 +169,11 @@ public class JumpLineGenerator {
     }
 
     protected Jump findMatchingJump(Vector3d start, Vector3dDouble target, double angleSuggestion) throws RuntimeException{
-        Set <Jump> placeableJumps = findPlaceableJumps(start);
+        return findMatchingJump(start, target, angleSuggestion, availableJumps, restrictedBlocks);
+    }
+
+    protected Jump findMatchingJump(Vector3d start, Vector3dDouble target, double angleSuggestion, Set<Jump> jumpBase, Matrix3d<Boolean> restrictedArea) throws RuntimeException{
+        Set <Jump> placeableJumps = findPlaceableJumps(start, jumpBase, restrictedArea);
         if(placeableJumps.size() == 0)
             throw new RuntimeException("Cannot find next jump because all of them have a conflict with the terrain or with other placed jumps");
         //najpierw iteracja i znalezienie najmniejszego kąta razem ze stworzeniem setu skoków w malym kącie
@@ -101,21 +203,20 @@ public class JumpLineGenerator {
         int rndmNumber = randomGenerator.nextInt(jumps.size());
         return arrayJumps[rndmNumber];
     }
-    private Set<Jump> findPlaceableJumps(Vector3d start){
-        Set<Jump> placeableJumps = new HashSet<>(availableJumps);
-        placeableJumps.removeIf((jump -> !jumpCanBePlaced(jump, start)));
+    private Set<Jump> findPlaceableJumps(Vector3d start, Set<Jump> jumpBase, Matrix3d<Boolean> restrictedArea){
+        Set<Jump> placeableJumps = new HashSet<>(jumpBase);
+        placeableJumps.removeIf((jump -> !jumpCanBePlaced(jump, start, restrictedArea)));
         return placeableJumps;
+    }
+
+    private Set<Jump> findPlaceableJumps(Vector3d start){
+        return findPlaceableJumps(start, availableJumps, restrictedBlocks);
     }
     
     protected boolean jumpCanBePlaced(Jump jump, Vector3d shift){
-        Matrix3d<Boolean> jumpRestricted = jump.getRestrictedArea(shift);
-        Set<Vector3d> commonVectors = new HashSet<>(jumpRestricted.getAllLocations());
-        commonVectors.retainAll(restrictedBlocks.getAllLocations());
-        if(commonVectors.size() == 0) return true;
-        for(Vector3d vector : commonVectors){
-            if(jumpRestricted.getObject(vector) && restrictedBlocks.getObject(vector))
-                return false;
-        }
-        return true;
+        return jumpCanBePlaced(jump, shift, restrictedBlocks);
+    }
+    protected boolean jumpCanBePlaced(Jump jump, Vector3d shift, Matrix3d<Boolean> restrictedArea){
+        return !jump.collidesWithArea(restrictedArea, shift);
     }
 }
