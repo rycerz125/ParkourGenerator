@@ -8,7 +8,7 @@ import org.sentillo.gepard.utils.Vector3d;
 
 import java.util.*;
 
-class JumpParser extends TextParser<Jump> {
+public class JumpParser extends TextParser<Jump> {
 
     public JumpParser() {
         super("newjump");

@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.sentillo.gepard.utils.BlockMatrix3d;
-import org.sentillo.gepard.utils.Matrix3d;
-import org.sentillo.gepard.utils.Named;
-import org.sentillo.gepard.utils.Vector3d;
+import org.sentillo.gepard.utils.*;
 
 @Builder
 @NoArgsConstructor
@@ -43,6 +40,12 @@ public class Jump implements Named{
             layers.setObject(vector.add(shift), true);
         }
         return layers;
+    }
+    public double getStartStopToVectorAngle(Vector3dDouble vector){
+        Vector3dDouble jumpVector = Vector3d.of(stop.getX() - start.getX(),
+                stop.getY() - start.getY(),
+                stop.getZ() - start.getZ()).toVector3dDouble();
+        return jumpVector.getAngleTo(vector);
     }
 
 }

@@ -1,11 +1,6 @@
 package org.sentillo.gepard.generator.jumps;
 
-import java.lang.reflect.Executable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import org.sentillo.gepard.generator.jumps.jump.Jump;
 import org.sentillo.gepard.utils.Matrix3d;
@@ -14,17 +9,17 @@ import org.sentillo.gepard.utils.Vector3dDouble;
 
 public class JumpLineGenerator {
     public List<Vector3dDouble> line;
-    public Matrix3d<Boolean> restricedBlocks;
+    public Matrix3d<Boolean> restrictedBlocks;
     public Set<Jump> availableJumps;
 
-    public JumpLineGenerator(List<Vector3dDouble> line, Matrix3d<Boolean> restricedBlocks,Set<Jump> availableJumps){
+    public JumpLineGenerator(List<Vector3dDouble> line, Matrix3d<Boolean> restrictedBlocks, Set<Jump> availableJumps){
         this.line = line;
-        this.restricedBlocks = restricedBlocks;
+        this.restrictedBlocks = restrictedBlocks;
         this.availableJumps = availableJumps;
     }
     private int currentTargetIndex = 0;
 
-    public List<Jump> generate(){
+    public List<Jump> generate(double angleSuggestion){
         Vector3d startPoint = line.get(0).toVector3d();
         Vector3dDouble targetPoint = nextTarget();
 
@@ -35,12 +30,11 @@ public class JumpLineGenerator {
             if(startPoint.toVector3dDouble().getDistanceSquared(targetPoint) <= maxDistanceSquare/4){
                 targetPoint = nextTarget();
             }else{
-                Jump jump = findMatchingJump(startPoint, targetPoint);
+                Jump jump = findMatchingJump(startPoint, targetPoint,angleSuggestion);
                 jumps.add(jump);
-                restricedBlocks.place(jump.getRestrictedArea(Vector3d.zero()), startPoint);
+                restrictedBlocks.place(jump.getRestrictedArea(Vector3d.zero()), startPoint);
                 startPoint = jump.getStop();
             }
-
         }
         jumps.addAll(findFinalJumpLine(startPoint,targetPoint));
         return jumps;
@@ -49,7 +43,7 @@ public class JumpLineGenerator {
         currentTargetIndex++;
         return line.get(currentTargetIndex);
     }
-    private double getMaxJumpDistanceSquared(){
+    protected double getMaxJumpDistanceSquared(){
         double maxDistance = 0;
         double distance;
         for(Jump jump : availableJumps){
@@ -67,27 +61,64 @@ public class JumpLineGenerator {
         return currentTargetIndex != line.size()-1;
     }
 
-    private Jump findMatchingJump(Vector3d start, Vector3dDouble target) throws RuntimeException{
-        Set<Jump> possibleJumps = new HashSet<>();
-        for(Jump jump : availableJumps){
-            if(jumpCanBePlaced(jump, start))
-                possibleJumps.add(jump);
-        }
-        if(availableJumps.size() == 0)  throw new RuntimeException();
-        for(Jump jump : possibleJumps){
-            //znalezc skok ktory ma zgodny kąt lub jak wszytskie mają słaby kąt to znalezc optymalny
-        }
-        return null;
+    protected Jump findMatchingJump(Vector3d start, Vector3dDouble target, double angleSuggestion) throws RuntimeException{
+        Set <Jump> placeableJumps = findPlaceableJumps(start);
+        if(placeableJumps.size() == 0)
+            throw new RuntimeException("Cannot find next jump because all of them have a conflict with the terrain or with other placed jumps");
+        //najpierw iteracja i znalezienie najmniejszego kąta razem ze stworzeniem setu skoków w malym kącie
+        //potem jezeli najmniejszy kąt > angleSuggestion to zwracamy ten skok
+        //gdy to nie nastapi to losujemy z setu wynik
 
+        Set<Jump> consistentAngleJumps = new HashSet<>();
+
+        double minAngle = Math.PI+0.01;
+        Jump bestAngleJump = null;
+        for(Jump jump : placeableJumps){
+            double currentAngle = jump.getStartStopToVectorAngle(target.subtract(start.toVector3dDouble()));
+            if(currentAngle < minAngle) {
+                minAngle = currentAngle;
+                bestAngleJump = jump;
+            }
+            if(currentAngle < angleSuggestion) consistentAngleJumps.add(jump);
+        }
+        if(consistentAngleJumps.size() == 0)
+            return bestAngleJump;
+        return drawJumpFrom(consistentAngleJumps);
+    }
+    protected Jump drawJumpFrom(Set<Jump> jumps){
+        Jump[] arrayJumps = jumps.toArray(new Jump[jumps.size()]);
+
+        // generate a random number
+        Random rndm = new Random();
+
+        // this will generate a random number between 0 and
+        // HashSet.size - 1
+        int rndmNumber = rndm.nextInt(jumps.size());
+        return arrayJumps[rndmNumber];
+    }
+    private Set<Jump> findPlaceableJumps(Vector3d start){
+        Set<Jump> placeableJumps = new HashSet<>(availableJumps);
+        placeableJumps.removeIf((jump -> !jumpCanBePlaced(jump, start)));
+        return placeableJumps;
+    }
+    private HashMap<Jump, Double> calculateAnglesOf(Set<Jump> jumps, Vector3d start, Vector3dDouble target){
+        HashMap<Jump, Double> jumpAngles = new HashMap<>();
+        for(Jump jump : jumps){
+            jumpAngles.put(
+                    jump,
+                    jump.getStartStopToVectorAngle(target.subtract(start.toVector3dDouble()))
+            );
+        }
+        return jumpAngles;
     }
     
-    private boolean jumpCanBePlaced(Jump jump, Vector3d shift){
+    protected boolean jumpCanBePlaced(Jump jump, Vector3d shift){
         Matrix3d<Boolean> jumpRestricted = jump.getRestrictedArea(shift);
         Set<Vector3d> commonVectors = new HashSet<>(jumpRestricted.getAllLocations());
-        commonVectors.retainAll(restricedBlocks.getAllLocations());
+        commonVectors.retainAll(restrictedBlocks.getAllLocations());
         if(commonVectors.size() == 0) return true;
         for(Vector3d vector : commonVectors){
-            if(jumpRestricted.getObject(vector) == true && restricedBlocks.getObject(vector) == true)
+            if(jumpRestricted.getObject(vector) && restrictedBlocks.getObject(vector))
                 return false;
         }
         return true;
