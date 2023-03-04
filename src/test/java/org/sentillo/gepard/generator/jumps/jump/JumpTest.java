@@ -50,4 +50,11 @@ public class JumpTest {
         Assertions.assertEquals("2plus1", jump2.getName());
         Assertions.assertTrue(jump2.getMustEmptyLayer().getObject(Vector3d.zero()));
     }
+    @Test
+    void collidesWithNextTest(){
+        JumpParser jp = new JumpParser();
+        List<Jump> jumps = jp.parse(testCode);
+        Jump jump = jumps.get(0);
+        jump.collidesWithNext(jump);
+    }
 }

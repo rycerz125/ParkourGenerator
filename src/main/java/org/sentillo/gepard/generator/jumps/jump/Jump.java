@@ -84,6 +84,8 @@ public class Jump implements Named{
         commonVectors.retainAll(restrictedBlocks.getAllLocations());
         if(commonVectors.size() == 0) return false;
         for(Vector3d vector : commonVectors){
+            if(vector.equals(getStop()) || vector.equals(getStop().add(Vector3d.of(0,1,0))) || vector.equals(getStop().add(Vector3d.of(0,2,0))) || vector.equals(getStop().add(Vector3d.of(0,3,0))))
+                continue;
             if(jumpRestricted.getObject(vector) && restrictedBlocks.getObject(vector))
                 return true;
         }

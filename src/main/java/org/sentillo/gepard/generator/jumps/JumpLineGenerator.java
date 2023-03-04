@@ -93,7 +93,7 @@ public class JumpLineGenerator {
             if(commonPointPairs.size() != 0){
                 for(Jump jumpFirst : commonPointPairs.keySet()){
                     Jump jumpSecond = commonPointPairs.get(jumpFirst);
-                    if(jumpFirst.collidesWithNext(jumpSecond)){
+                    if(!jumpFirst.collidesWithNext(jumpSecond)){
                         finalJumpList.add(jumpFirst);
                         finalJumpList.add(jumpSecond);
                         return finalJumpList;
