@@ -4,6 +4,8 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
 public enum BlockType {
+    AIR,
+    TERRAIN_RESERVED,
     BLOCK,
 
     STAIR_NORTH,

@@ -11,6 +11,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.bukkit.block.Block;
+import org.sentillo.gepard.generator.jumps.BlockType;
 import org.sentillo.gepard.utils.*;
 
 @Builder
@@ -45,26 +47,30 @@ public class Jump implements Named{
     @Builder.Default
     private Matrix3d<Boolean> couldEmptyLayer = new Matrix3d<>();
 
-    public Matrix3d<Boolean> getRestrictedArea(Vector3d shift){
-        Matrix3d<Boolean> layers = new Matrix3d<>();
-        layers.place(mustEmptyLayer,shift);
-        layers.place(couldEmptyLayer, shift);
-        for(Vector3d vector : visibleLayer.getAllLocations()){
-            layers.setObject(vector.add(shift), true);
+    public BlockMatrix3d getRestrictedArea(Vector3d shift){
+        BlockMatrix3d layers = new BlockMatrix3d();
+        for(Vector3d  vector : mustEmptyLayer.getAllLocations()){
+            if(mustEmptyLayer.getObject(vector))
+            layers.setObject(vector.add(shift), BlockType.AIR);
         }
+        for(Vector3d  vector : couldEmptyLayer.getAllLocations()){
+            if(couldEmptyLayer.getObject(vector))
+            layers.setObject(vector.add(shift), BlockType.AIR);
+        }
+        layers.place(visibleLayer, shift);
         return layers;
     }
-    public Matrix3d<Boolean> getRestrictedAreaOnlyTrueAndInverted(Vector3d shift){
-        Matrix3d<Boolean> restricted = getRestrictedArea(shift);
-        for(Vector3d vector : restricted.getAllLocations()){
-            if(!restricted.getObject(vector)) {
-                restricted.remove(vector);
-            }else{
-                restricted.setObject(vector, false);
-            }
-        }
-        return restricted;
-    }
+    // public BlockMatrix3d getRestrictedAreaOnlyTrueAndInverted(Vector3d shift){
+    //     BlockMatrix3d restricted = getRestrictedArea(shift);
+    //     for(Vector3d vector : restricted.getAllLocations()){
+    //         if(!restricted.getObject(vector)) {
+    //             restricted.remove(vector);
+    //         }else{
+    //             restricted.setObject(vector, false);
+    //         }
+    //     }
+    //     return restricted;
+    // }
     public double getStartStopToVectorAngle(Vector3dDouble vector){
         Vector3dDouble jumpVector = getStartStopVector().toVector3dDouble();
         return jumpVector.getAngleTo(vector);
@@ -75,18 +81,16 @@ public class Jump implements Named{
         stop.getZ() - start.getZ());
     }
     public boolean collidesWithNext(Jump jump){
-        Matrix3d<Boolean> nextJumpRestricted = jump.getRestrictedArea(this.getStartStopVector());
+        BlockMatrix3d nextJumpRestricted = jump.getRestrictedArea(this.getStartStopVector());
         return collidesWithArea(nextJumpRestricted, Vector3d.zero());
     }
-    public boolean collidesWithArea(Matrix3d<Boolean> restrictedBlocks,Vector3d jumpStartShift){
-        Matrix3d<Boolean> jumpRestricted = getRestrictedArea(jumpStartShift);
+    public boolean collidesWithArea(BlockMatrix3d restrictedBlocks,Vector3d jumpStartShift){
+        BlockMatrix3d jumpRestricted = getRestrictedArea(jumpStartShift);
         Set<Vector3d> commonVectors = new HashSet<>(jumpRestricted.getAllLocations());
         commonVectors.retainAll(restrictedBlocks.getAllLocations());
         if(commonVectors.size() == 0) return false;
         for(Vector3d vector : commonVectors){
-            if(vector.equals(getStop()) || vector.equals(getStop().add(Vector3d.of(0,1,0))) || vector.equals(getStop().add(Vector3d.of(0,2,0))) || vector.equals(getStop().add(Vector3d.of(0,3,0))))
-                continue;
-            if(jumpRestricted.getObject(vector) && restrictedBlocks.getObject(vector))
+            if(jumpRestricted.getObject(vector) != restrictedBlocks.getObject(vector))
                 return true;
         }
         return false;

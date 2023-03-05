@@ -3,18 +3,19 @@ package org.sentillo.gepard.generator.jumps;
 import java.util.*;
 
 import org.sentillo.gepard.generator.jumps.jump.Jump;
+import org.sentillo.gepard.utils.BlockMatrix3d;
 import org.sentillo.gepard.utils.Matrix3d;
 import org.sentillo.gepard.utils.Vector3d;
 import org.sentillo.gepard.utils.Vector3dDouble;
 
 public class JumpLineGenerator {
     public List<Vector3dDouble> line;
-    public Matrix3d<Boolean> restrictedBlocks;
+    public BlockMatrix3d restrictedBlocks;
     public Set<Jump> availableJumps;
     private Random randomGenerator;
     private double maxDistanceSquared;
 
-    public JumpLineGenerator(List<Vector3dDouble> line, Matrix3d<Boolean> restrictedBlocks, Set<Jump> availableJumps){
+    public JumpLineGenerator(List<Vector3dDouble> line, BlockMatrix3d restrictedBlocks, Set<Jump> availableJumps){
         this.line = line;
         this.restrictedBlocks = restrictedBlocks;
         this.availableJumps = availableJumps;
@@ -22,7 +23,7 @@ public class JumpLineGenerator {
         maxDistanceSquared = getMaxJumpDistanceSquared();
 
     }
-    public JumpLineGenerator(List<Vector3dDouble> line, Matrix3d<Boolean> restrictedBlocks, Set<Jump> availableJumps, long seed){
+    public JumpLineGenerator(List<Vector3dDouble> line, BlockMatrix3d restrictedBlocks, Set<Jump> availableJumps, long seed){
         this.line = line;
         this.restrictedBlocks = restrictedBlocks;
         this.availableJumps = availableJumps;
@@ -101,13 +102,13 @@ public class JumpLineGenerator {
                 }
             }
     
-            if(!notReturnedFirstTime){
-                Jump lastJump = finalJumpList.get(finalJumpList.size()-1);
-                restrictedBlocks.place(lastJump.getRestrictedAreaOnlyTrueAndInverted(startPoint), Vector3d.zero());
-                startPoint = startPoint.subtract(lastJump.getStartStopVector());
-                finalJumpList.remove(finalJumpList.size()-1);
-            }
-            Jump jump = findMatchingJump(startPoint, targetPoint,angleSuggestion,availableNotCheckedPenultimateJumps);
+            // if(!notReturnedFirstTime){
+            //     Jump lastJump = finalJumpList.get(finalJumpList.size()-1);
+            //     restrictedBlocks.place(lastJump.getRestrictedAreaOnlyTrueAndInverted(startPoint), Vector3d.zero());
+            //     startPoint = startPoint.subtract(lastJump.getStartStopVector());
+            //     finalJumpList.remove(finalJumpList.size()-1);
+            // }
+            Jump jump = findMatchingJump(startPoint, targetPoint,angleSuggestion);//,availableNotCheckedPenultimateJumps);
             finalJumpList.add(jump);
             restrictedBlocks.place(jump.getRestrictedArea(Vector3d.zero()), startPoint);
             startPoint = startPoint.add(jump.getStartStopVector());
@@ -131,7 +132,7 @@ public class JumpLineGenerator {
     protected HashMap<Jump, Vector3d> getPossibleFirstJumpEnds(Vector3d start){
         return getPossibleFirstJumpEnds(start,restrictedBlocks);
     }
-    protected HashMap<Jump, Vector3d> getPossibleFirstJumpEnds(Vector3d start, Matrix3d<Boolean> restrictedArea){
+    protected HashMap<Jump, Vector3d> getPossibleFirstJumpEnds(Vector3d start, BlockMatrix3d restrictedArea){
         HashMap<Jump, Vector3d> possibleFirstJumpEnds = new HashMap<>();
         for(Jump jump : availableJumps){
             if(jumpCanBePlaced(jump,start,restrictedArea))
@@ -168,7 +169,8 @@ public class JumpLineGenerator {
     protected Jump findMatchingJump(Vector3d start, Vector3dDouble target, double angleSuggestion, Set<Jump> jumpBase) throws RuntimeException{
         Set <Jump> placeableJumps = findPlaceableJumps(start, jumpBase);
         if(placeableJumps.size() == 0)
-            throw new RuntimeException("Cannot find next jump because all of them have a conflict with the terrain or with other placed jumps");
+            System.out.println("nie udalo sie znalezc rozwiazania");
+            //throw new RuntimeException("Cannot find next jump because all of them have a conflict with the terrain or with other placed jumps");
         //najpierw iteracja i znalezienie najmniejszego kąta razem ze stworzeniem setu skoków w malym kącie
         //potem jezeli najmniejszy kąt > angleSuggestion to zwracamy ten skok
         //gdy to nie nastapi to losujemy z setu wynik
@@ -204,7 +206,7 @@ public class JumpLineGenerator {
     protected boolean jumpCanBePlaced(Jump jump, Vector3d shift){
         return jumpCanBePlaced(jump, shift, restrictedBlocks);
     }
-    protected boolean jumpCanBePlaced(Jump jump, Vector3d shift, Matrix3d<Boolean> restrictedArea){
+    protected boolean jumpCanBePlaced(Jump jump, Vector3d shift, BlockMatrix3d restrictedArea){
         return !jump.collidesWithArea(restrictedArea, shift);
     }
 }

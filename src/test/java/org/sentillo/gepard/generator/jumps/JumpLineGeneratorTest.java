@@ -6,6 +6,7 @@ import org.sentillo.gepard.generator.jumps.jump.Jump;
 import org.sentillo.gepard.generator.jumps.jump.JumpLoader;
 import org.sentillo.gepard.generator.jumps.jump.JumpParser;
 import org.sentillo.gepard.generator.jumps.jump.JumpService;
+import org.sentillo.gepard.utils.BlockMatrix3d;
 import org.sentillo.gepard.utils.Matrix3d;
 import org.sentillo.gepard.utils.Vector3d;
 import org.sentillo.gepard.utils.Vector3dDouble;
@@ -51,7 +52,7 @@ public class JumpLineGeneratorTest {
         JumpParser jp = new JumpParser();
         List<Jump> jumps = jp.parse(testCode);
         Set<Jump> jumpSet = new HashSet<>(jumps);
-        JumpLineGenerator jumpLineGenerator = new JumpLineGenerator(new ArrayList<>(),new Matrix3d<>(),jumpSet);
+        JumpLineGenerator jumpLineGenerator = new JumpLineGenerator(new ArrayList<>(),new BlockMatrix3d(),jumpSet);
         Assertions.assertEquals(25,jumpLineGenerator.getMaxJumpDistanceSquared());
     }
     @Test
@@ -59,13 +60,13 @@ public class JumpLineGeneratorTest {
         JumpParser jp = new JumpParser();
         List<Jump> jumps = jp.parse(testCode);
         Set<Jump> jumpSet = new HashSet<>(jumps);
-        Matrix3d<Boolean> terrainArea = new Matrix3d<>();
-        terrainArea.setObject(Vector3d.of(0,0,0), true);
+        BlockMatrix3d terrainArea = new BlockMatrix3d();
+        terrainArea.setObject(Vector3d.of(0,0,0), BlockType.TERRAIN_RESERVED);
         JumpLineGenerator jumpLineGenerator = new JumpLineGenerator(new ArrayList<>(),terrainArea,jumpSet);
         Assertions.assertFalse(jumpLineGenerator.jumpCanBePlaced(jumps.get(0),Vector3d.zero()));
         Assertions.assertTrue(jumpLineGenerator.jumpCanBePlaced(jumps.get(0),Vector3d.of(1,0,0)));
 
-        terrainArea.setObject(Vector3d.of(0,0,0), false);
+        terrainArea.setObject(Vector3d.of(0,0,0), BlockType.BLOCK);
         Assertions.assertTrue(jumpLineGenerator.jumpCanBePlaced(jumps.get(0),Vector3d.zero()));
         Assertions.assertTrue(jumpLineGenerator.jumpCanBePlaced(jumps.get(0),Vector3d.of(1,0,0)));
     }
@@ -74,7 +75,7 @@ public class JumpLineGeneratorTest {
         JumpParser jp = new JumpParser();
         List<Jump> jumps = jp.parse(testCode);
         Set<Jump> jumpSet = new HashSet<>(jumps);
-        JumpLineGenerator jumpLineGenerator = new JumpLineGenerator(new ArrayList<>(),new Matrix3d<>(),jumpSet);
+        JumpLineGenerator jumpLineGenerator = new JumpLineGenerator(new ArrayList<>(),new BlockMatrix3d(),jumpSet);
         for (int i = 0; i < 10; i++) {
             System.out.println(jumpLineGenerator.drawJumpFrom(jumpSet).getName());
         }
@@ -85,7 +86,7 @@ public class JumpLineGeneratorTest {
         JumpParser jp = new JumpParser();
         List<Jump> jumps = jp.parse(testCode);
         Set<Jump> jumpSet = new HashSet<>(jumps);
-        JumpLineGenerator jumpLineGenerator = new JumpLineGenerator(new ArrayList<>(),new Matrix3d<>(),jumpSet,12);
+        JumpLineGenerator jumpLineGenerator = new JumpLineGenerator(new ArrayList<>(),new BlockMatrix3d(),jumpSet,12);
         List<Jump> jumpList1 = new ArrayList<>();
         List<Jump> jumpList2 = new ArrayList<>();
         List<Jump> jumpList3 = new ArrayList<>();
@@ -101,7 +102,7 @@ public class JumpLineGeneratorTest {
             System.out.println(jumpList3.get(i).getName());
         }
         List<Jump> jumpList4 = new ArrayList<>();
-        jumpLineGenerator.restrictedBlocks.setObject(Vector3d.of(4,0,0),true);
+        jumpLineGenerator.restrictedBlocks.setObject(Vector3d.of(4,0,0),BlockType.TERRAIN_RESERVED);
         for (int i = 0; i < 10; i++) {
             jumpList4.add(jumpLineGenerator.findMatchingJump(Vector3d.zero(), new Vector3dDouble(4,0,0),0));
         }
@@ -114,7 +115,7 @@ public class JumpLineGeneratorTest {
     @Test
     void generateTest(){
         JumpLoader jumpLoader = new JumpLoader();
-        List<Jump> loadedJumps = jumpLoader.load("plugins" +File.separator+"GepardGenerator"+File.separator+ "jumps" + File.separator + "jumps"+ File.separator + "2blockjumps" + File.separator + "easy");
+        List<Jump> loadedJumps = jumpLoader.load("plugins" +File.separator+"GepardGenerator"+File.separator+ "jumps" + File.separator + "jumps"+ File.separator + "2blockjumps" + File.separator + "trivial");
         JumpParser jp = new JumpParser();
         List<Jump> jumps = jp.parse(testCode);
         Set<Jump> jumpSet = new HashSet<>();
@@ -124,8 +125,8 @@ public class JumpLineGeneratorTest {
 
         List<Vector3dDouble> line = new ArrayList<>();
         line.add(new Vector3dDouble(0, 0, 0));
-        line.add(new Vector3dDouble(5,0,2));
-        JumpLineGenerator jumpLineGenerator = new JumpLineGenerator(line,new Matrix3d<>(),jumpSet,12);
+        line.add(new Vector3dDouble(52,5,104));
+        JumpLineGenerator jumpLineGenerator = new JumpLineGenerator(line,new BlockMatrix3d(),jumpSet,12);
         List<Jump> generated = jumpLineGenerator.generate(0);
         for(Jump jump : generated){
             System.out.println(jump.getName());
