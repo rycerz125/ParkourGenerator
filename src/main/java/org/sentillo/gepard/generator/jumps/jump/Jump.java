@@ -101,12 +101,14 @@ public class Jump implements Named{
         jumps.add(this);
         for (int index = 0; index < 3; index++) {
             localJump.rotateJump90Left();
+            localJump.setName(localJump.getName() + "Rotated" + index);
             jumps.add(localJump.clone());
         }
         localJump.mirrorX();
         jumps.add(localJump.clone());
         for (int index = 0; index < 3; index++) {
             localJump.rotateJump90Left();
+            localJump.setName(localJump.getName() + "Mirrorrotated"+index);
             jumps.add(localJump.clone());
         }
         return jumps;

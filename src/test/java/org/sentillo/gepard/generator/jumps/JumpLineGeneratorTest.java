@@ -126,8 +126,10 @@ public class JumpLineGeneratorTest {
         List<Vector3dDouble> line = new ArrayList<>();
         line.add(new Vector3dDouble(0, 0, 0));
         line.add(new Vector3dDouble(52,5,104));
+        line.add(new Vector3dDouble(4, 20, -3));
+        line.add(new Vector3dDouble(4, 100, -9));
         JumpLineGenerator jumpLineGenerator = new JumpLineGenerator(line,new BlockMatrix3d(),jumpSet,12);
-        List<Jump> generated = jumpLineGenerator.generate(0);
+        List<Jump> generated = jumpLineGenerator.generate(Math.PI/8);
         for(Jump jump : generated){
             System.out.println(jump.getName());
         }
